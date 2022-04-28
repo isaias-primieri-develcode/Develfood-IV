@@ -1,12 +1,10 @@
-import React from "react";
-import { View, Text } from "react-native";
+import React from 'react';
+import { View, Text } from 'react-native';
 
-export function App(){
-  return(
-    <View>
-      <Text>
-        Meu App
-      </Text>
-    </View>
-  )
-}
+export const App = () => (
+  <View>
+    <Text>
+      Meu App
+    </Text>
+  </View>
+);
