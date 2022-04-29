@@ -1,10 +1,16 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { Text, View } from 'react-native';
+import { Routes } from './src/routes';
 
-export const App = () => (
-  <View>
-    <Text>
-      Meu App
-    </Text>
-  </View>
-);
+export default function App() {
+  return (
+
+    <View style={{ height: '100%', width: '100%' }}>
+      <Text>
+        ola
+      </Text>
+      <Routes />
+    </View>
+
+  );
+}
