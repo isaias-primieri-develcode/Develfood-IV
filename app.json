@@ -1,4 +1,8 @@
 {
   "name": "develfood",
-  "displayName": "develfood"
+  "displayName": "develfood",
+  "packagerOpts": {
+    "config": "metro.config.js",
+    "sourceExts": ["js", "jsx", "ts", "tsx", "svg"]
+  }
 }
