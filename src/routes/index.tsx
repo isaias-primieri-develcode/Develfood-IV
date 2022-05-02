@@ -3,7 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 // import { ScreenStackHeaderConfig } from 'react-native-screens';
 // import Icon from 'react-native-vector-icons/Feather';
-import { Image, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import { Home } from '../screens/Home/home.page';
 import { Profile } from '../screens/Profile/profile.page';
 import { Historic } from '../screens/Historic/historic.page';
@@ -19,30 +19,29 @@ import HistoricActiveIcon from '../assets/icons/historicActive.svg';
 import { Styles } from './style';
 
 const Tab = createBottomTabNavigator();
-const screenOptions = {
-  tabBarStyle: {
-    backgroundColor: '#fff',
-    height: 100,
-    width: '100%',
-    position: 'relative',
-    borderTopWidth: 4,
-    borderTopColor: '#eaeaea',
-  },
-  tabBarShowLabel: false,
-  tabBarHideOnKeyboard: true,
-};
 
 export function Routes() {
   return (
     <NavigationContainer>
       <Tab.Navigator
-        {...{ screenOptions }}
-
+        screenOptions={{
+          tabBarStyle: {
+            backgroundColor: '#fff',
+            height: 60,
+            width: '100%',
+            position: 'relative',
+            borderTopWidth: 4,
+            borderTopColor: '#eaeaea',
+          },
+          tabBarShowLabel: false,
+          tabBarHideOnKeyboard: true,
+        }}
       >
         <Tab.Screen
           name="Home"
           component={Home}
           options={{
+            // eslint-disable-next-line react/no-unstable-nested-components
             tabBarIcon: ({ focused }) => (
               <View style={Styles.Container}>
                 <View style={Styles.Icons}>
@@ -51,17 +50,17 @@ export function Routes() {
                 }
                 </View>
                 <View style={Styles.TextContainer}>
-                  {focused ? null : <Text style={Styles.Text}>Home</Text> }
+                  {focused ? null : <Text style={Styles.Text}>Inicío</Text> }
                 </View>
               </View>
             ),
           }}
         />
         <Tab.Screen
-
           name="Favorites"
           component={Favorites}
           options={{
+            // eslint-disable-next-line react/no-unstable-nested-components
             tabBarIcon: ({ focused }) => (
               <View style={Styles.Container}>
                 <View style={Styles.Icons}>
@@ -71,7 +70,7 @@ export function Routes() {
                 </View>
                 <View style={Styles.TextContainer}>
 
-                  {focused ? null : <Text style={Styles.Text}>Favorites</Text> }
+                  {focused ? null : <Text style={Styles.Text}>Favoritos</Text> }
                 </View>
               </View>
             ),
@@ -81,6 +80,7 @@ export function Routes() {
           name="Historic"
           component={Historic}
           options={{
+            // eslint-disable-next-line react/no-unstable-nested-components
             tabBarIcon: ({ focused }) => (
               <View style={Styles.Container}>
                 <View style={Styles.Icons}>
@@ -90,7 +90,7 @@ export function Routes() {
                 </View>
                 <View style={Styles.TextContainer}>
 
-                  {focused ? null : <Text style={Styles.Text}>Historic</Text> }
+                  {focused ? null : <Text style={Styles.Text}>Histórico</Text> }
                 </View>
               </View>
             ),
@@ -100,6 +100,7 @@ export function Routes() {
           name="Profile"
           component={Profile}
           options={{
+            // eslint-disable-next-line react/no-unstable-nested-components
             tabBarIcon: ({ focused }) => (
               <View style={Styles.Container}>
                 <View style={Styles.Icons}>
@@ -109,7 +110,7 @@ export function Routes() {
                 </View>
                 <View style={Styles.TextContainer}>
 
-                  {focused ? null : <Text style={Styles.Text}>Profile</Text> }
+                  {focused ? null : <Text style={Styles.Text}>Perfil</Text> }
                 </View>
               </View>
             ),
