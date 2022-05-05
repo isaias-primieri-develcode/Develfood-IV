@@ -37,6 +37,7 @@ export function Routes() {
           tabBarHideOnKeyboard: true,
         }}
       >
+
         <Tab.Screen
           name="Home"
           component={Home}
