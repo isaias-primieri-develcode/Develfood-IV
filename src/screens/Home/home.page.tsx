@@ -24,7 +24,7 @@ export function Home() {
   const { data } = useGet<Props[]>('/public/v2/users')
 
   const { data: dataPost, postData } = usePost<Props, Propriedades>('/public/v2/users', {
-    email: 'isaias@develcode98498.com',
+    email: 'isaias@develcode.com',
     name: 'isaias',
     gender: 'male',
     status: 'active',
@@ -35,15 +35,16 @@ export function Home() {
     },
   })
   // eslint-disable-next-line no-unused-vars
-  const { data: dataDelete, deleteData } = useDelete<Props>('/public/v2/users/7694', {
+  const { data: dataDelete, deleteData } = useDelete<Props>('/public/v2/users', {
+
     headers: {
       'Content-type': 'application/json',
       Authorization: 'Bearer fc39eb3e54a3c6ced11e15735c3af526a77efd49d8d91c5d6ab132a61d444758',
     },
   })
   // eslint-disable-next-line no-unused-vars
-  const { data: dataPut, putData } = usePut<Props, Propriedades>('/public/v2/users/7717', {
-    email: 'isaias@develcode1728631412.com',
+  const { data: dataPut, putData } = usePut<Props, Propriedades>('/public/v2/users/5766', {
+    email: 'isaias@develcode.com',
     name: 'isaias',
     gender: 'male',
     status: 'active',
