@@ -1,6 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
-import { AppRoutes } from './src/routes/appRoutes';
+import { Routes } from './src/routes/index.routes';
+// import { AppRoutes } from './src/routes/appRoutes';
 
 const axios = require('axios');
 
@@ -11,7 +12,7 @@ export default function App() {
 
     <View style={{ height: '100%', width: '100%' }}>
 
-      <AppRoutes />
+      <Routes />
     </View>
 
   );

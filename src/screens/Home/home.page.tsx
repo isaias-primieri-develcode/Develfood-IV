@@ -1,13 +1,11 @@
 import React from 'react';
-import { Button, FlatList, Text } from 'react-native';
-import { useDelete } from '../../service/delete';
-import { useGet } from '../../service/get';
-import { usePost } from '../../service/post';
-import { usePut } from '../../service/put';
-
 import {
-  Container, Title,
-} from './home.styles';
+  Button, FlatList, Text, View,
+} from 'react-native';
+import {
+  useDelete, useGet, usePost, usePut,
+} from '../../service/apiExports'
+import { Container } from './home.styles';
 
 interface Props{
     name: string;
@@ -59,7 +57,7 @@ export function Home() {
   return (
     <Container>
       <FlatList
-        style={{ height: 100 }}
+        style={{ height: 256, marginVertical: 30, marginHorizontal: 15 }}
         data={data}
         renderItem={({ item }) => (
           <Text>
@@ -74,14 +72,13 @@ export function Home() {
         {dataPost.email}
 
       </Text>
-      <Button title="adicionar" onPress={() => postData()} />
-      <Button title="deletar" onPress={() => deleteData()} />
-      <Button title="put" onPress={() => putData()} />
+      <View style={{ }}>
 
-      <Title>
-        home
+        <Button color="#f11" title="adicionar" onPress={() => postData()} />
+        <Button color="#f11" title="deletar" onPress={() => deleteData()} />
+        <Button color="#f11" title="put" onPress={() => putData()} />
+      </View>
 
-      </Title>
     </Container>
   )
 }
