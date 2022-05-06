@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 // import { ScreenStackHeaderConfig } from 'react-native-screens';
 // import Icon from 'react-native-vector-icons/Feather';
 import { Text, View } from 'react-native';
+import RNBootSplash from 'react-native-bootsplash'
+
 import { Home } from '../screens/Home/home.page';
 import { Profile } from '../screens/Profile/profile.page';
 import { Historic } from '../screens/Historic/historic.page';
@@ -16,11 +18,14 @@ import FavoritesIcon from '../assets/icons/favorites.svg';
 import FavoritesActiveIcon from '../assets/icons/favoritesActive.svg';
 import HistoricIcon from '../assets/icons/historic.svg';
 import HistoricActiveIcon from '../assets/icons/historicActive.svg';
-import { Styles } from './style';
+import { Styles } from './style.routes';
 
 const Tab = createBottomTabNavigator();
 
 export function Routes() {
+  useEffect(() => {
+    RNBootSplash.hide({ fade: true })
+  }, [])
   return (
     <NavigationContainer>
       <Tab.Navigator
@@ -33,6 +38,7 @@ export function Routes() {
             borderTopWidth: 4,
             borderTopColor: '#eaeaea',
           },
+          headerShown: false,
           tabBarShowLabel: false,
           tabBarHideOnKeyboard: true,
         }}

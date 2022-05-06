@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { TextInput } from 'react-native';
-import { ButtonLogin } from '../../components/Button';
 import { usePost } from '../../service/post';
 
 import {
@@ -18,7 +17,7 @@ export function Favorites() {
 
       </Title>
       <TextInput onChangeText={setText} value={text} />
-      <ButtonLogin title="i" icon={false} />
+
     </Container>
   )
 }
