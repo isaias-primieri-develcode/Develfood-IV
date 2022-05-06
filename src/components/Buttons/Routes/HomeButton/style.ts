@@ -1,13 +1,7 @@
 import styled from 'styled-components/native';
 
 export const Container = styled.View`
-
-flex: 1;
 width: 100%;
-
-`;
-
-export const Title = styled.Text`
-font-size: 20px;
-
+height: 60;
+background-color: green;
 `;
