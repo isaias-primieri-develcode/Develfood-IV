@@ -5,15 +5,7 @@ export const theme = {
     primaryLight: '#f11',
     primaryNegative: '#07b39c',
 
-    secondary100: '#0A1033',
-    secondary90: '#0D133D',
-    secondary85: '#0E1647',
-    secondary80: '#171F52',
-    secondary70: '#1B2565',
-    secondary60: '#1c2666',
-    secondary50: '#1e2976',
-    secondary40: '#243189',
-    secondary30: '#495BCC',
+    secondary: '#edeaea',
 
     background: '#0D133D',
 
