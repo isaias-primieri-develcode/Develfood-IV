@@ -1,22 +1,27 @@
 import React, { useState } from 'react';
 import { TextInput } from 'react-native';
-import { usePost } from '../../service/post';
+import { TabNavigation } from '../../components/Buttons/Routes/TabNavigation/tabNavigation';
 
 import {
   Container, Title,
 } from './favorites.styles';
 
-export function Favorites() {
+type Props = {
+  navigation:any
+}
+
+export function Favorites({ navigation } : Props) {
   const [text, setText] = useState('text')
   // eslint-disable-next-line no-unused-vars
-  const { postData } = usePost('/public/v2/users', text)
+
   return (
-    <Container>
+    <Container style={{ flex: 1 }}>
       <Title>
         Favorites
 
       </Title>
       <TextInput onChangeText={setText} value={text} />
+      <TabNavigation check={2} navigation={navigation} />
 
     </Container>
   )

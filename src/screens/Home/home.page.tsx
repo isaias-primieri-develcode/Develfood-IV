@@ -1,84 +1,102 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import {
   Button, FlatList, Text, View,
 } from 'react-native';
-import {
-  useDelete, useGet, usePost, usePut,
-} from '../../service/apiExports'
+import { TabNavigation } from '../../components/Buttons/Routes/TabNavigation/tabNavigation';
+import api from '../../service/api';
+import { useGet } from '../../service/get';
+
 import { Container } from './home.styles';
 
-interface Props{
-    name: string;
-    email: string;
-    gender: string;
-    status: string;
+type PropsN={
+  navigation: any
 }
-interface Propriedades{
-  name: string;
-  email: string;
-  gender: string;
-  status: string;
+interface Data{
+  name: string
+  email: string
+  gender: string
+  status: string
 }
 
-export function Home() {
-  const { data } = useGet<Props[]>('/public/v2/users')
+export function Home({ navigation } : PropsN) {
+  const { data, loading, error } = useGet<Data[]>('/public/v2/users')
 
-  const { data: dataPost, postData } = usePost<Props, Propriedades>('/public/v2/users', {
-    email: 'isaias@develcode.com',
-    name: 'isaias',
-    gender: 'male',
-    status: 'active',
-  }, {
-    headers: {
-      'Content-type': 'application/json',
-      Authorization: 'Bearer fc39eb3e54a3c6ced11e15735c3af526a77efd49d8d91c5d6ab132a61d444758',
-    },
-  })
-  // eslint-disable-next-line no-unused-vars
-  const { data: dataDelete, deleteData } = useDelete<Props>('/public/v2/users', {
-
-    headers: {
-      'Content-type': 'application/json',
-      Authorization: 'Bearer fc39eb3e54a3c6ced11e15735c3af526a77efd49d8d91c5d6ab132a61d444758',
-    },
-  })
-  // eslint-disable-next-line no-unused-vars
-  const { data: dataPut, putData } = usePut<Props, Propriedades>('/public/v2/users/5766', {
-    email: 'isaias@develcode.com',
-    name: 'isaias',
-    gender: 'male',
-    status: 'active',
-  }, {
-    headers: {
-      'Content-type': 'application/json',
-      Authorization: 'Bearer fc39eb3e54a3c6ced11e15735c3af526a77efd49d8d91c5d6ab132a61d444758',
-    },
-  })
+  const handlePost = () => {
+    api.post('/public/v2/users', {
+      email: 'isatrets@develcode.com',
+      name: 'ytrias',
+      gender: 'male',
+      status: 'active',
+    }, {
+      headers: {
+        'Content-type': 'application/json',
+        Authorization: 'Bearer fc39eb3e54a3c6ced11e15735c3af526a77efd49d8d91c5d6ab132a61d444758',
+      },
+    })
+  }
+  const handleDelete = () => {
+    api.delete('/public/v2/users/7747', {
+      headers: {
+        'Content-type': 'application/json',
+        Authorization: 'Bearer fc39eb3e54a3c6ced11e15735c3af526a77efd49d8d91c5d6ab132a61d444758',
+      },
+    })
+  }
+  const handlePut = () => {
+    api.put('/public/v2/users/9018', {
+      email: 'loadvs@develcode.com',
+      name: 'ytrisfdsas',
+      gender: 'male',
+      status: 'active',
+    }, {
+      headers: {
+        'Content-type': 'application/json',
+        Authorization: 'Bearer fc39eb3e54a3c6ced11e15735c3af526a77efd49d8d91c5d6ab132a61d444758',
+      },
+    })
+  }
 
   return (
-    <Container>
+    <Container style={{ flex: 1 }}>
       <FlatList
-        style={{ height: 256, marginVertical: 30, marginHorizontal: 15 }}
+        style={{ height: 206, marginVertical: 30, marginHorizontal: 15 }}
         data={data}
         renderItem={({ item }) => (
-          <Text>
-            {item.email}
-            {item.name}
-            {item.gender}
-            {item.status}
-          </Text>
+          <View style={{
+            borderWidth: 2, padding: 4, margin: 2, borderRadius: 2,
+          }}
+          >
+            <Text>
+              {item.email}
+            </Text>
+
+            <Text>
+              {item.name}
+            </Text>
+            <Text>
+              {item.gender}
+            </Text>
+            <Text>
+              {item.status}
+            </Text>
+
+          </View>
         )}
       />
-      <Text>
-        {dataPost.email}
 
-      </Text>
-      <View style={{ }}>
+      <View style={{ marginBottom: 60 }}>
 
-        <Button color="#f11" title="adicionar" onPress={() => postData()} />
-        <Button color="#f11" title="deletar" onPress={() => deleteData()} />
-        <Button color="#f11" title="put" onPress={() => putData()} />
+        <Button
+          color="#f11"
+          title="adicionar"
+          onPress={() => handlePost()}
+        />
+        <Button color="#f11" title="deletar" onPress={() => handleDelete()} />
+        <Button color="#f11" title="put" onPress={() => handlePut()} />
       </View>
+
+      <TabNavigation check={1} navigation={navigation} />
 
     </Container>
   )
