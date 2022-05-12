@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { TextInput } from 'react-native';
+import React from 'react';
 import { TabNavigation } from '../../components/Buttons/Routes/TabNavigation/tabNavigation';
 
 import {
@@ -11,7 +10,6 @@ type Props = {
 }
 
 export function Favorites({ navigation } : Props) {
-  const [text, setText] = useState('text')
   // eslint-disable-next-line no-unused-vars
 
   return (
@@ -20,7 +18,7 @@ export function Favorites({ navigation } : Props) {
         Favorites
 
       </Title>
-      <TextInput onChangeText={setText} value={text} />
+
       <TabNavigation check={2} navigation={navigation} />
 
     </Container>

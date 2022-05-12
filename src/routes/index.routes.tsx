@@ -11,15 +11,7 @@ import { Home } from '../screens/Home/home.page';
 import { Profile } from '../screens/Profile/profile.page';
 import { Historic } from '../screens/Historic/historic.page';
 import { Favorites } from '../screens/Favorites/favorites.page';
-import ProfileIcon from '../assets/icons/profile.svg';
-import ProfileActiveIcon from '../assets/icons/profileActive.svg';
-import HomeIcon from '../assets/icons/home.svg';
-import HomeActiveIcon from '../assets/icons/homeActive.svg';
-import FavoritesIcon from '../assets/icons/favorites.svg';
-import FavoritesActiveIcon from '../assets/icons/favoritesActive.svg';
-import HistoricIcon from '../assets/icons/historic.svg';
-import HistoricActiveIcon from '../assets/icons/historicActive.svg';
-import { Styles } from './style.routes';
+import { Login } from '../screens/Login/login.page';
 
 const Stack = createNativeStackNavigator()
 
@@ -29,7 +21,12 @@ export function Routes() {
   }, [])
   return (
 
-    <Stack.Navigator defaultScreenOptions={{ headerShown: false, animation: 'fade' }}>
+    <Stack.Navigator>
+      <Stack.Screen
+        options={{ headerShown: false, animation: 'fade' }}
+        name="Login"
+        component={Login}
+      />
       <Stack.Screen
         options={{ headerShown: false, animation: 'fade' }}
         name="Home"
