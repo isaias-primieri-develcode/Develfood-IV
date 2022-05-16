@@ -28,6 +28,7 @@ type Props = {
 export function Login({ navigation } : Props) {
   const [error, setError] = useState(false)
   const [check, setcheck] = useState(false)
+  const [loading, setloading] = useState(false)
   const [email, setemail] = useState()
   const [password, setpassword] = useState()
 
@@ -46,7 +47,9 @@ export function Login({ navigation } : Props) {
       }
     })
   }
-
+  const sleep = (time) => new Promise((resolve) => {
+    setTimeout(resolve, time)
+  })
   return (
     <Container style={{ flex: 1 }}>
       <Pizza source={PizzaPng} />
@@ -59,13 +62,16 @@ export function Login({ navigation } : Props) {
 
       <ViewInput>
         <Email style={{ position: 'absolute', left: 0, marginHorizontal: 10 }} />
-        <ValueInput
-          value={search}
-          autoCompleteType="email"
-          onChangeText={(text) => setemail(text)}
-          placeholder="email@example.com"
-          keyboardType="email-address"
-        />
+        {loading ? <Text style={{ fontSize: 14, marginLeft: 40, color: 'green' }}>Validando</Text> : (
+          <ValueInput
+            value={search}
+            autoCompleteType="email"
+            onChangeText={(text) => setemail(text)}
+            placeholder="email@example.com"
+            keyboardType="email-address"
+          />
+        )}
+
       </ViewInput>
       <View>
         {error ? <Text style={{ color: 'red' }}>Erro no Login, Tente Novamente</Text> : null }
@@ -78,7 +84,10 @@ export function Login({ navigation } : Props) {
         </Password>
 
         <HiddenPassword style={{ position: 'absolute', right: 0, marginHorizontal: 10 }} onPress={() => { setcheck(!check) }} />
-        <ValueInput placeholder="******" onChangeText={(text) => setpassword(text)} secureTextEntry={!check} />
+        {loading ? <Text style={{ fontSize: 14, marginLeft: 40, color: 'green' }}>Validando</Text> : (
+          <ValueInput placeholder="******" onChangeText={(text) => setpassword(text)} secureTextEntry={!check} />
+
+        )}
       </ViewInput>
       <View style={{ width: 295, alignItems: 'flex-end' }}>
         <TouchableOpacity activeOpacity={0.8}>
@@ -88,8 +97,8 @@ export function Login({ navigation } : Props) {
         </TouchableOpacity>
 
       </View>
+      {loading ? <ButtonLogin activeOpacity={1} title="Processando..." /> : <ButtonLogin title="Entrar" activeOpacity={0.8} onPress={() => { handlePost(), setloading(true), sleep(2000).then(() => { setError(true), setloading(false) }), sleep(5500).then(() => { setError(false) }) }} />}
 
-      <ButtonLogin title="Entrar" onPress={() => { handlePost(), setError(true) }} />
       <TouchableOpacity activeOpacity={0.8} style={{ flexDirection: 'row' }}>
         <Text style={{ paddingTop: 16, fontWeight: 'bold', color: '#68484A' }}>
           Não possui cadastro?
