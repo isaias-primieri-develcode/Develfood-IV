@@ -15,8 +15,8 @@ export function ButtonLogin({ title, ...rest } : Props) {
   return (
     <Container>
       <Button
-        activeOpacity={0.75}
         {...rest}
+
       >
         <View>
           <Title>
