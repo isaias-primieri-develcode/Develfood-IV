@@ -1,6 +1,6 @@
 import { NavigationContainer } from '@react-navigation/native';
 import React from 'react';
-import { View } from 'react-native';
+import { StatusBar, View } from 'react-native';
 import { Routes } from './src/routes/index.routes';
 // import { AppRoutes } from './src/routes/appRoutes';
 
@@ -12,6 +12,7 @@ export default function App() {
   return (
 
     <View style={{ height: '100%', width: '100%' }}>
+      <StatusBar barStyle="dark-content" backgroundColor="#fff" />
       <NavigationContainer>
         <Routes />
       </NavigationContainer>

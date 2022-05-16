@@ -1,8 +1,9 @@
 /* eslint-disable no-unused-vars */
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Button, FlatList, Text, View,
 } from 'react-native';
+import { TextInput } from 'react-native-gesture-handler';
 import { TabNavigation } from '../../components/Buttons/Routes/TabNavigation/tabNavigation';
 import api from '../../service/api';
 import { useGet } from '../../service/get';
@@ -21,6 +22,8 @@ interface Data{
 
 export function Home({ navigation } : PropsN) {
   const { data, loading, error } = useGet<Data[]>('/public/v2/users')
+
+  // setinfo(infor)
 
   const handlePost = () => {
     api.post('/public/v2/users', {
@@ -59,6 +62,7 @@ export function Home({ navigation } : PropsN) {
 
   return (
     <Container style={{ flex: 1 }}>
+
       <FlatList
         style={{ height: 206, marginVertical: 30, marginHorizontal: 15 }}
         data={data}
