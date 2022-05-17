@@ -47,7 +47,7 @@ export function Login({ navigation } : Props) {
       }
     })
   }
-  const sleep = (time) => new Promise((resolve) => {
+  const sleep = (time:any) => new Promise((resolve) => {
     setTimeout(resolve, time)
   })
   return (
@@ -66,6 +66,7 @@ export function Login({ navigation } : Props) {
           <ValueInput
             value={search}
             autoCompleteType="email"
+            defaultValue="exemplo@email.co"
             onChangeText={(text) => setemail(text)}
             placeholder="email@example.com"
             keyboardType="email-address"
@@ -85,7 +86,12 @@ export function Login({ navigation } : Props) {
 
         <HiddenPassword style={{ position: 'absolute', right: 0, marginHorizontal: 10 }} onPress={() => { setcheck(!check) }} />
         {loading ? <Text style={{ fontSize: 14, marginLeft: 40, color: 'green' }}>Validando</Text> : (
-          <ValueInput placeholder="******" onChangeText={(text) => setpassword(text)} secureTextEntry={!check} />
+          <ValueInput
+            placeholder="******"
+            defaultValue="12345"
+            onChangeText={(text) => setpassword(text)}
+            secureTextEntry={!check}
+          />
 
         )}
       </ViewInput>
