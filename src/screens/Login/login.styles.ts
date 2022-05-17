@@ -15,16 +15,16 @@ font-size: 16px;
 
 export const Xburguer = styled.Image`
 position: absolute;
-left: 0;
-top: 0;
+left: 0px;
+top: 0px;
 
 `;
 
 export const Pizza = styled.Image`
 position: absolute;
-right: 0;
+right: 0px;
 
-top: 0;
+top: 0px;
 
 `;
 
@@ -60,8 +60,8 @@ export const ViewInput = styled.View`
 `;
 
 export const Password = styled.View`
-  width: 18;
-  height: 22;
+  width: 18px;
+  height: 22px;
   margin: 12px;
   position: absolute;
   align-items: flex-start;
