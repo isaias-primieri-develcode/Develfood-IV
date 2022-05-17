@@ -31,14 +31,14 @@ top: 0;
 export const Ketchup = styled.Image`
 position: absolute;
 
-bottom: 0;
+bottom: 0px;
 
 `;
 export const ValueInput = styled.TextInput`
-  width: 200;
-  height: 50;
-  border-radius: 10;
-  margin-left: 36;
+  width: 200px;
+  height: 50px;
+  border-radius: 10px;
+  margin-left: 36px;
   border-color: #BFBABA;
   align-items: center;
   justify-content: center;
@@ -47,9 +47,9 @@ export const ValueInput = styled.TextInput`
 
 export const ViewInput = styled.View`
 
-  width: 295;
-  height: 50;
-  border-radius: 10;
+  width: 295px;
+  height: 50px;
+  border-radius: 10px;
   margin-top: 12px;
   border: 1px;
   background-color: rgba(255,255,255, 0.7);

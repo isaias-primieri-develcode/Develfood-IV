@@ -11,13 +11,13 @@ export const Button = styled.View`
 export const Tab = styled.View`
     position: absolute;
     border-top-color: #ddd;
-    padding-Top: 6;
+    padding-Top: 6px;
 
-    bottom: 0;
+    bottom: 0px;
  `;
 export const Title = styled.Text`
     color: #f11;
-    font-Size: 15;
+    font-Size: 15px;
     flex-Direction: row;
 
 `;
