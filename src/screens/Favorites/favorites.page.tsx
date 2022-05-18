@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { Button, Text } from 'react-native';
 import { TabNavigation } from '../../components/Buttons/Routes/TabNavigation/tabNavigation';
+import { UserContext, UserContextProvider } from '../../contexts/costumerContext';
 
 import {
   Container, Title,
@@ -11,16 +13,24 @@ type Props = {
 
 export function Favorites({ navigation } : Props) {
   // eslint-disable-next-line no-unused-vars
+  const { isOpenModal, setIsOpenModal } = useContext(UserContext)
 
   return (
-    <Container style={{ flex: 1 }}>
-      <Title>
-        Favorites
+    <UserContextProvider>
 
-      </Title>
+      <Container style={{ flex: 1 }}>
+        <Button title="add" onPress={() => setIsOpenModal(!isOpenModal)} />
 
-      <TabNavigation check={2} navigation={navigation} />
+        <Title>
 
-    </Container>
+          Favorites
+        </Title>
+        <Title>
+          {isOpenModal ? <Text>ola</Text> : <Text>tchau</Text>}
+        </Title>
+
+        <TabNavigation check={2} navigation={navigation} />
+      </Container>
+    </UserContextProvider>
   )
 }

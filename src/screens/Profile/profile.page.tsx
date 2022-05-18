@@ -1,5 +1,11 @@
-import React from 'react';
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-unused-expressions */
+/* eslint-disable react/jsx-no-constructed-context-values */
+/* eslint-disable react/self-closing-comp */
+import React, { useContext, useState } from 'react';
+import { Text, TouchableOpacity } from 'react-native';
 import { TabNavigation } from '../../components/Buttons/Routes/TabNavigation/tabNavigation';
+import { UserContext, UserContextProvider } from '../../contexts/costumerContext';
 
 import {
   Container, Title,
@@ -10,13 +16,23 @@ type Props = {
 }
 
 export function Profile({ navigation }:Props) {
-  return (
-    <Container style={{ flex: 1 }}>
-      <Title>
-        Profile
-      </Title>
-      <TabNavigation check={4} navigation={navigation} />
+  const { isOpenModal, setIsOpenModal } = useContext(UserContext)
 
-    </Container>
+  return (
+    <UserContextProvider>
+
+      <Container style={{ flex: 1 }}>
+
+        <Title>
+          Profile
+        </Title>
+        <Title>
+          {isOpenModal ? <Text>ola</Text> : <Text>tchau</Text>}
+        </Title>
+
+        <TabNavigation check={4} navigation={navigation} />
+
+      </Container>
+    </UserContextProvider>
   )
 }

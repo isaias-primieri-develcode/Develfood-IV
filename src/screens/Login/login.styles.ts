@@ -15,41 +15,42 @@ font-size: 16px;
 
 export const Xburguer = styled.Image`
 position: absolute;
-left: 0;
-top: 0;
+left: 0px;
+top: 0px;
 
 `;
 
 export const Pizza = styled.Image`
 position: absolute;
-right: 0;
+right: 0px;
 
-top: 0;
+top: 0px;
 
 `;
 
 export const Ketchup = styled.Image`
 position: absolute;
 
-bottom: 0;
+bottom: 0px;
 
 `;
 export const ValueInput = styled.TextInput`
-  width: 200;
-  height: 50;
-  border-radius: 10;
-  margin-left: 36;
+  width: 200px;
+  height: 50px;
+  border-radius: 10px;
+  margin-left: 36px;
   border-color: #BFBABA;
   align-items: center;
+  color: #222;
   justify-content: center;
 
 `;
 
 export const ViewInput = styled.View`
 
-  width: 295;
-  height: 50;
-  border-radius: 10;
+  width: 295px;
+  height: 50px;
+  border-radius: 10px;
   margin-top: 12px;
   border: 1px;
   background-color: rgba(255,255,255, 0.7);
@@ -60,8 +61,8 @@ export const ViewInput = styled.View`
 `;
 
 export const Password = styled.View`
-  width: 18;
-  height: 22;
+  width: 18px;
+  height: 22px;
   margin: 12px;
   position: absolute;
   align-items: flex-start;

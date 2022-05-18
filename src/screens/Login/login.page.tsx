@@ -27,10 +27,10 @@ type Props = {
 
 export function Login({ navigation } : Props) {
   const [error, setError] = useState(false)
-  const [check, setcheck] = useState(false)
-  const [loading, setloading] = useState(false)
-  const [email, setemail] = useState()
-  const [password, setpassword] = useState()
+  const [check, setCheck] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [email, seEmail] = useState(String)
+  const [password, setPassword] = useState(String)
 
   const [search, setsearch] = useState()
   const handlePost = () => {
@@ -47,7 +47,7 @@ export function Login({ navigation } : Props) {
       }
     })
   }
-  const sleep = (time) => new Promise((resolve) => {
+  const sleep = (time:any) => new Promise((resolve) => {
     setTimeout(resolve, time)
   })
   return (
@@ -66,7 +66,8 @@ export function Login({ navigation } : Props) {
           <ValueInput
             value={search}
             autoCompleteType="email"
-            onChangeText={(text) => setemail(text)}
+            defaultValue="exemplo@email.co"
+            onChangeText={(text:string) => seEmail(text)}
             placeholder="email@example.com"
             keyboardType="email-address"
           />
@@ -83,9 +84,30 @@ export function Login({ navigation } : Props) {
           <PasswordDown />
         </Password>
 
-        <HiddenPassword style={{ position: 'absolute', right: 0, marginHorizontal: 10 }} onPress={() => { setcheck(!check) }} />
+        {check
+          ? (
+            <HiddenPassword
+              style={{
+                position: 'absolute', right: 0, marginHorizontal: 10, backgroundColor: '#55a2', borderRadius: 8,
+              }}
+              onPress={() => { setCheck(!check) }}
+            />
+          )
+          : (
+            <HiddenPassword
+              style={{ position: 'absolute', right: 0, marginHorizontal: 10 }}
+              onPress={() => { setCheck(!check) }}
+            />
+          )}
+
         {loading ? <Text style={{ fontSize: 14, marginLeft: 40, color: 'green' }}>Validando</Text> : (
-          <ValueInput placeholder="******" onChangeText={(text) => setpassword(text)} secureTextEntry={!check} />
+          <ValueInput
+            placeholder="******"
+            defaultValue="12345"
+            onChangeText={(text) => setPassword(text)}
+            secureTextEntry={!check}
+
+          />
 
         )}
       </ViewInput>
@@ -97,7 +119,7 @@ export function Login({ navigation } : Props) {
         </TouchableOpacity>
 
       </View>
-      {loading ? <ButtonLogin activeOpacity={1} title="Processando..." /> : <ButtonLogin title="Entrar" activeOpacity={0.8} onPress={() => { handlePost(), setloading(true), sleep(2000).then(() => { setError(true), setloading(false) }), sleep(5500).then(() => { setError(false) }) }} />}
+      {loading ? <ButtonLogin activeOpacity={1} title="Processando..." /> : <ButtonLogin title="Entrar" activeOpacity={0.8} onPress={() => { handlePost(), setLoading(true), sleep(2000).then(() => { setError(true), setLoading(false) }), sleep(5500).then(() => { setError(false) }) }} />}
 
       <TouchableOpacity activeOpacity={0.8} style={{ flexDirection: 'row' }}>
         <Text style={{ paddingTop: 16, fontWeight: 'bold', color: '#68484A' }}>

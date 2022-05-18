@@ -7,7 +7,7 @@ export const Container = styled.View`
   justify-content: center;
   `;
 
-export const Button = styled.TouchableOpacity`
+export const AppButton = styled.TouchableOpacity`
   background-color: #C20C18;
   border-radius: 8px;
   align-items: center;
