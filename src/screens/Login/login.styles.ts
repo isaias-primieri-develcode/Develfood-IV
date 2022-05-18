@@ -41,6 +41,7 @@ export const ValueInput = styled.TextInput`
   margin-left: 36px;
   border-color: #BFBABA;
   align-items: center;
+  color: #222;
   justify-content: center;
 
 `;

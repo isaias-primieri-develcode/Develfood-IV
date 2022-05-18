@@ -11,7 +11,7 @@ export const Styles = StyleSheet.create({
 
   },
   Text: {
-    color: '#cccaca',
+    color: '#111',
 
   },
   TextContainer: {

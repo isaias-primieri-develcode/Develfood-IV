@@ -84,13 +84,29 @@ export function Login({ navigation } : Props) {
           <PasswordDown />
         </Password>
 
-        <HiddenPassword style={{ position: 'absolute', right: 0, marginHorizontal: 10 }} onPress={() => { setCheck(!check) }} />
+        {check
+          ? (
+            <HiddenPassword
+              style={{
+                position: 'absolute', right: 0, marginHorizontal: 10, backgroundColor: '#55a2', borderRadius: 8,
+              }}
+              onPress={() => { setCheck(!check) }}
+            />
+          )
+          : (
+            <HiddenPassword
+              style={{ position: 'absolute', right: 0, marginHorizontal: 10 }}
+              onPress={() => { setCheck(!check) }}
+            />
+          )}
+
         {loading ? <Text style={{ fontSize: 14, marginLeft: 40, color: 'green' }}>Validando</Text> : (
           <ValueInput
             placeholder="******"
             defaultValue="12345"
             onChangeText={(text) => setPassword(text)}
             secureTextEntry={!check}
+
           />
 
         )}
