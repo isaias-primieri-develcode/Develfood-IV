@@ -9,11 +9,11 @@ import { Home } from '../Home/home.page';
 import MiniLogo from '../../assets/images/miniLogo.svg'
 import PizzaPng from '../../assets/images/pizza.png'
 import XburguerPng from '../../assets/images/xburguer.png'
-import KetchupPng from '../../assets/images/ketchup.png'
-import HiddenPassword from '../../assets/imageIcons/hiddenPassword.svg'
-import Email from '../../assets/imageIcons/email.svg'
+import Phone from '../../assets/imageIcons/phone.svg'
+import CPF from '../../assets/imageIcons/cpf.svg'
+import Name from '../../assets/imageIcons/name.svg'
+
 import PasswordDown from '../../assets/imageIcons/password.svg'
-import PasswordUp from '../../assets/imageIcons/passwordUp.svg'
 import Register2Svg from '../../assets/resgister/register2.svg'
 
 import {
@@ -35,29 +35,13 @@ export function Register2({ navigation } : Props) {
   const [password, setPassword] = useState(String)
 
   const [search, setsearch] = useState()
-  const handlePost = () => {
-    api.post('/auth', {
-      email,
-      password,
-    }).then((request) => {
-      console.log(request.status)
-      if (request.status === 200) {
-        navigation.navigate(Home)
-        setError(false)
-      } else {
-        setError(true)
-      }
-    })
-  }
-  const sleep = (time:any) => new Promise((resolve) => {
-    setTimeout(resolve, time)
-  })
+
   return (
     <Container style={{ flex: 1 }}>
       <Register2Svg />
 
       <ViewInput>
-        <Email style={{ position: 'absolute', left: 0, marginHorizontal: 10 }} />
+        <Name style={{ position: 'absolute', left: 0, marginHorizontal: 10 }} />
         {loading
           ? (
             <Text style={{ fontSize: 14, marginLeft: 40, color: 'green' }}>
@@ -80,7 +64,7 @@ export function Register2({ navigation } : Props) {
       </View>
 
       <ViewInput>
-        <Email style={{ position: 'absolute', left: 0, marginHorizontal: 10 }} />
+        <CPF style={{ position: 'absolute', left: 0, marginHorizontal: 10 }} />
         {loading
           ? (
             <Text style={{ fontSize: 14, marginLeft: 40, color: 'green' }}>
@@ -99,7 +83,7 @@ export function Register2({ navigation } : Props) {
       </ViewInput>
 
       <ViewInput>
-        <Email style={{ position: 'absolute', left: 0, marginHorizontal: 10 }} />
+        <Phone style={{ position: 'absolute', left: 0, marginHorizontal: 10 }} />
         {loading
           ? (
             <Text style={{ fontSize: 14, marginLeft: 40, color: 'green' }}>

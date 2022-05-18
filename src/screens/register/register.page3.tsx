@@ -3,30 +3,20 @@
 /* eslint-disable no-sequences */
 /* eslint-disable no-unused-expressions */
 import React, { useState } from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
+import { Text, View } from 'react-native';
 import { ButtonLogin } from '../../components/Buttons/Button/button.component';
 import { Home } from '../Home/home.page';
-import MiniLogo from '../../assets/images/miniLogo.svg'
-import PizzaPng from '../../assets/images/pizza.png'
-import XburguerPng from '../../assets/images/xburguer.png'
-import KetchupPng from '../../assets/images/ketchup.png'
-import HiddenPassword from '../../assets/imageIcons/hiddenPassword.svg'
-import Email from '../../assets/imageIcons/email.svg'
-import Location from '../../assets/imageIcons/location.svg'
-
-import PasswordDown from '../../assets/imageIcons/password.svg'
-import PasswordUp from '../../assets/imageIcons/passwordUp.svg'
-import Register3Svg from '../../assets/resgister/register3.svg'
-
 import {
   Container, ValueInput, Ketchup, Pizza, Xburguer, ViewInput, Password,
 } from './register.styles';
+import { RegisterSucess } from './registerSucess.page';
+
+import Location from '../../assets/imageIcons/location.svg'
+import Register3Svg from '../../assets/resgister/register3.svg'
+
 import api from '../../service/api';
 
-type Props = {
-  navigation:any
-
-}
+type Props = { navigation:any }
 
 export function Register3({ navigation } : Props) {
   const [error, setError] = useState(false)
@@ -36,32 +26,14 @@ export function Register3({ navigation } : Props) {
   const [password, setPassword] = useState(String)
 
   const [search, setsearch] = useState()
-  const handlePost = () => {
-    api.post('/auth', {
-      email,
-      password,
-    }).then((request) => {
-      console.log(request.status)
-      if (request.status === 200) {
-        navigation.navigate(Home)
-        setError(false)
-      } else {
-        setError(true)
-      }
-    })
-  }
-  const sleep = (time:any) => new Promise((resolve) => {
-    setTimeout(resolve, time)
-  })
+
   return (
     <Container style={{ flex: 1 }}>
       <Register3Svg />
 
       <ViewInput>
-        <View>
-          <Location fill="#000" style={{ position: 'absolute', left: 0, marginHorizontal: 0 }} />
 
-        </View>
+        <Location style={{ position: 'absolute', left: 0, marginHorizontal: 10 }} />
 
         {loading
           ? (
@@ -71,10 +43,90 @@ export function Register3({ navigation } : Props) {
           ) : (
             <ValueInput
               value={search}
-              autoCompleteType="name"
+              autoCompleteType="street-address"
               onChangeText={(text:string) => seEmail(text)}
-              placeholder="Nome"
+              placeholder="Rua"
               keyboardType="default"
+            />
+          )}
+      </ViewInput>
+
+      <ViewInput>
+
+        <Location style={{ position: 'absolute', left: 0, marginHorizontal: 10 }} />
+
+        {loading
+          ? (
+            <Text style={{ fontSize: 14, marginLeft: 40, color: 'green' }}>
+              Validando
+            </Text>
+          ) : (
+            <ValueInput
+              value={search}
+              autoCompleteType="street-address"
+              onChangeText={(text:string) => seEmail(text)}
+              placeholder="Cidade"
+              keyboardType="default"
+            />
+          )}
+      </ViewInput>
+
+      <ViewInput>
+
+        <Location style={{ position: 'absolute', left: 0, marginHorizontal: 10 }} />
+
+        {loading
+          ? (
+            <Text style={{ fontSize: 14, marginLeft: 40, color: 'green' }}>
+              Validando
+            </Text>
+          ) : (
+            <ValueInput
+              value={search}
+              autoCompleteType="street-address"
+              onChangeText={(text:string) => seEmail(text)}
+              placeholder="Bairro"
+              keyboardType="default"
+            />
+          )}
+      </ViewInput>
+
+      <ViewInput>
+
+        <Location style={{ position: 'absolute', left: 0, marginHorizontal: 10 }} />
+
+        {loading
+          ? (
+            <Text style={{ fontSize: 14, marginLeft: 40, color: 'green' }}>
+              Validando
+            </Text>
+          ) : (
+            <ValueInput
+              value={search}
+              autoCompleteType="street-address"
+              onChangeText={(text:string) => seEmail(text)}
+              placeholder="Numero"
+              keyboardType="number-pad"
+            />
+          )}
+      </ViewInput>
+
+      <ViewInput>
+
+        <Location style={{ position: 'absolute', left: 0, marginHorizontal: 10 }} />
+
+        {loading
+          ? (
+            <Text style={{ fontSize: 14, marginLeft: 40, color: 'green' }}>
+              Validando
+            </Text>
+          ) : (
+            <ValueInput
+              value={search}
+              autoCompleteType="street-address"
+              onChangeText={(text:string) => seEmail(text)}
+              placeholder="CEP"
+              keyboardType="number-pad"
             />
           )}
       </ViewInput>
@@ -89,7 +141,7 @@ export function Register3({ navigation } : Props) {
         <ButtonLogin
           title="Continuar"
           activeOpacity={0.8}
-          onPress={() => { navigation.navigate(Home) }}
+          onPress={() => { navigation.navigate(RegisterSucess) }}
         />
       )}
 

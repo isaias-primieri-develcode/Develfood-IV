@@ -13,13 +13,13 @@ import KetchupPng from '../../assets/images/ketchup.png'
 import HiddenPassword from '../../assets/imageIcons/hiddenPassword.svg'
 import Email from '../../assets/imageIcons/email.svg'
 import PasswordDown from '../../assets/imageIcons/password.svg'
-import PasswordUp from '../../assets/imageIcons/passwordUp.svg'
 
 import {
   Container, ValueInput, Ketchup, Pizza, Xburguer, ViewInput, Password,
 } from './login.styles';
 import api from '../../service/api';
 import { Register1 } from '../register/register.page1';
+import { Sleep } from '../../utils/sleep';
 
 type Props = {
   navigation:any
@@ -33,11 +33,14 @@ export function Login({ navigation } : Props) {
   const [email, seEmail] = useState(String)
   const [password, setPassword] = useState(String)
 
-  const [search, setsearch] = useState()
   const handlePost = () => {
     api.post('/auth', {
       email,
       password,
+      creationDate: '2022-05-02',
+      role: {
+        id: 2,
+      },
     }).then((request) => {
       console.log(request.status)
       if (request.status === 200) {
@@ -48,9 +51,7 @@ export function Login({ navigation } : Props) {
       }
     })
   }
-  const sleep = (time:any) => new Promise((resolve) => {
-    setTimeout(resolve, time)
-  })
+
   return (
     <Container style={{ flex: 1 }}>
       <Pizza source={PizzaPng} />
@@ -65,7 +66,6 @@ export function Login({ navigation } : Props) {
         <Email style={{ position: 'absolute', left: 0, marginHorizontal: 10 }} />
         {loading ? <Text style={{ fontSize: 14, marginLeft: 40, color: 'green' }}>Validando</Text> : (
           <ValueInput
-            value={search}
             autoCompleteType="email"
             defaultValue="exemplo@email.co"
             onChangeText={(text:string) => seEmail(text)}
@@ -81,7 +81,6 @@ export function Login({ navigation } : Props) {
 
       <ViewInput>
         <Password style={{ alignItems: 'center' }}>
-          <PasswordUp />
           <PasswordDown />
         </Password>
 
@@ -120,7 +119,7 @@ export function Login({ navigation } : Props) {
         </TouchableOpacity>
 
       </View>
-      {loading ? <ButtonLogin activeOpacity={1} title="Processando..." /> : <ButtonLogin title="Entrar" activeOpacity={0.8} onPress={() => { handlePost(), setLoading(true), sleep(4000).then(() => { setError(true), setLoading(false) }), sleep(5500).then(() => { setError(false) }) }} />}
+      {loading ? <ButtonLogin activeOpacity={1} title="Processando..." /> : <ButtonLogin title="Entrar" activeOpacity={0.8} onPress={() => { handlePost(), setLoading(true), Sleep(4000).then(() => { setError(true), setLoading(false) }), Sleep(5500).then(() => { setError(false) }) }} />}
 
       <TouchableOpacity activeOpacity={0.8} style={{ flexDirection: 'row' }} onPress={() => navigation.navigate(Register1)}>
         <Text style={{ paddingTop: 16, fontWeight: 'bold', color: '#68484A' }}>

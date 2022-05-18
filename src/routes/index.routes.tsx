@@ -15,6 +15,7 @@ import { Login } from '../screens/Login/login.page';
 import { Register1 } from '../screens/register/register.page1';
 import { Register2 } from '../screens/register/register.page2';
 import { Register3 } from '../screens/register/register.page3';
+import { RegisterSucess } from '../screens/register/registerSucess.page';
 
 const Stack = createNativeStackNavigator()
 
@@ -44,6 +45,11 @@ export function Routes() {
         options={{ headerShown: false, animation: 'fade' }}
         name="Register3"
         component={Register3}
+      />
+      <Stack.Screen
+        options={{ headerShown: false, animation: 'fade' }}
+        name="RegisterSucess"
+        component={RegisterSucess}
       />
       <Stack.Screen
         options={{ headerShown: false, animation: 'fade' }}

@@ -69,3 +69,13 @@ export const Password = styled.View`
   justify-content: center;
 
 `;
+
+export const TextView = styled.View`
+  width: 273px;
+  height: 42px;
+  margin-bottom: 60px;
+
+  align-items: flex-start;
+  justify-content: center;
+
+`;
