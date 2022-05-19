@@ -1,3 +1,5 @@
+/* eslint-disable react/jsx-no-constructed-context-values */
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/function-component-definition */
 import React, {
   createContext, ReactNode, useState,
@@ -9,15 +11,16 @@ type UserContextProps = {
 
 type UserContextType = {
   isOpenModal: boolean,
-  authToken: string,
-  // eslint-disable-next-line no-unused-vars
   setIsOpenModal: (newState: boolean) => void
+  authToken: string,
+  setAuthToken: (newState: string) => void
 }
 
 const initialValue = {
-  authToken: '',
   isOpenModal: false,
   setIsOpenModal: () => {},
+  authToken: '',
+  setAuthToken: () => {},
 
 }
 
@@ -25,11 +28,13 @@ export const UserContext = createContext<UserContextType>(initialValue);
 
 export const UserContextProvider = ({ children }: UserContextProps) => {
   const [isOpenModal, setIsOpenModal] = useState(initialValue.isOpenModal)
-  const authToken = 'Bearer fc39eb3e54a3c6ced11e15735c3af526a77efd49d8d91c5d6ab132a61d444758'
+  const [authToken, setAuthToken] = useState(initialValue.authToken)
 
   return (
-    // eslint-disable-next-line react/jsx-no-constructed-context-values
-    <UserContext.Provider value={{ isOpenModal, setIsOpenModal, authToken }}>
+    <UserContext.Provider value={{
+      isOpenModal, setIsOpenModal, authToken, setAuthToken,
+    }}
+    >
       {children}
     </UserContext.Provider>
   )

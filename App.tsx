@@ -13,15 +13,12 @@ axios.get('https://api.github.com/users/isaias-primieri-develcode')
 export default function App() {
   return (
     <UserContextProvider>
-
       <View style={{ height: '100%', width: '100%' }}>
         <StatusBar barStyle="dark-content" backgroundColor="#fff" />
         <NavigationContainer>
           <LoginRoutes />
-
         </NavigationContainer>
       </View>
-
     </UserContextProvider>
   );
 }

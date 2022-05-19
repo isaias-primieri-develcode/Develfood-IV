@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-sequences */
 /* eslint-disable no-unused-expressions */
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { ButtonLogin } from '../../components/Buttons/Button/button.component';
 import { Home } from '../Home/home.page';
@@ -21,6 +21,7 @@ import api from '../../service/api';
 import { Register1 } from '../register/register.page1';
 import { Sleep } from '../../utils/sleep';
 import { Routes } from '../../routes/index.routes';
+import { UserContext } from '../../contexts/costumerContext';
 
 type Props = {
   navigation:any
@@ -33,6 +34,9 @@ export function Login({ navigation } : Props) {
   const [loading, setLoading] = useState(false)
   const [email, seEmail] = useState(String)
   const [password, setPassword] = useState(String)
+  const {
+    isOpenModal, setIsOpenModal, authToken, setAuthToken,
+  } = useContext(UserContext)
 
   const handlePost = () => {
     api.post('/auth', {
@@ -43,7 +47,7 @@ export function Login({ navigation } : Props) {
         id: 2,
       },
     }).then((request) => {
-      console.log(request.status)
+      console.log(authToken)
       if (request.status === 200) {
         navigation.navigate(Routes)
         setError(false)
@@ -120,7 +124,7 @@ export function Login({ navigation } : Props) {
         </TouchableOpacity>
 
       </View>
-      {loading ? <ButtonLogin activeOpacity={1} title="Processando..." /> : <ButtonLogin title="Entrar" activeOpacity={0.8} onPress={() => { handlePost(), setLoading(true), Sleep(4000).then(() => { setError(true), setLoading(false) }), Sleep(5500).then(() => { setError(false) }) }} />}
+      {loading ? <ButtonLogin activeOpacity={1} title="Processando..." /> : <ButtonLogin title="Entrar" activeOpacity={0.8} onPress={() => { handlePost(), setLoading(true), Sleep(4000).then(() => { setError(true), setLoading(false) }), Sleep(7500).then(() => { setError(false) }) }} />}
 
       <TouchableOpacity activeOpacity={0.8} style={{ flexDirection: 'row' }} onPress={() => navigation.navigate(Register1)}>
         <Text style={{ paddingTop: 16, fontWeight: 'bold', color: '#68484A' }}>
