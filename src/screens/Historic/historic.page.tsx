@@ -18,9 +18,7 @@ type Props = {
 export function Historic({ navigation } : Props) {
   return (
     <Container style={{ flex: 1 }}>
-      <View style={{ flex: 1 }}>
-        <TabNavigation check={3} navigation={navigation} />
-      </View>
+      <View style={{ flex: 1 }} />
     </Container>
   )
 }
