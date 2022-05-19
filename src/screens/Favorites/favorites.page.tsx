@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useContext } from 'react';
 import { Button, Text } from 'react-native';
 import { TabNavigation } from '../../components/Buttons/Routes/TabNavigation/tabNavigation';
@@ -29,7 +30,6 @@ export function Favorites({ navigation } : Props) {
           {isOpenModal ? <Text>ola</Text> : <Text>tchau</Text>}
         </Title>
 
-        <TabNavigation check={2} navigation={navigation} />
       </Container>
     </UserContextProvider>
   )

@@ -20,6 +20,7 @@ import {
 import api from '../../service/api';
 import { Register1 } from '../register/register.page1';
 import { Sleep } from '../../utils/sleep';
+import { Routes } from '../../routes/index.routes';
 
 type Props = {
   navigation:any
@@ -44,7 +45,7 @@ export function Login({ navigation } : Props) {
     }).then((request) => {
       console.log(request.status)
       if (request.status === 200) {
-        navigation.navigate(Home)
+        navigation.navigate(Routes)
         setError(false)
       } else {
         setError(true)

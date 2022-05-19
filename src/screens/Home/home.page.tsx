@@ -120,8 +120,6 @@ export function Home({ navigation } : PropsN) {
           <Button color="#f11" title="put" onPress={() => handlePut()} />
         </View>
 
-        <TabNavigation check={1} navigation={navigation} />
-
       </Container>
     </UserContextProvider>
   )

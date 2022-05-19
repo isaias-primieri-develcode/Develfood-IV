@@ -21,6 +21,7 @@ import {
 } from './register.styles';
 import api from '../../service/api';
 import { Register3 } from './register.page3';
+import { UserContextProvider } from '../../contexts/costumerContext';
 
 type Props = {
   navigation:any
@@ -31,90 +32,104 @@ export function Register2({ navigation } : Props) {
   const [error, setError] = useState(false)
   const [check, setCheck] = useState(false)
   const [loading, setLoading] = useState(false)
-  const [email, seEmail] = useState(String)
-  const [password, setPassword] = useState(String)
+  const [newName, setNewName] = useState(String)
+  const [newCPF, setNewCPF] = useState(String)
+  const [newPhone, setNewPhone] = useState(String)
 
   const [search, setsearch] = useState()
 
+  const handlePost = () => {
+    console.log(
+      'nome:',
+      newName,
+      'CPF:',
+      newCPF,
+      'telefone:',
+      newPhone,
+    )
+  }
+
   return (
-    <Container style={{ flex: 1 }}>
-      <Register2Svg />
+    <UserContextProvider>
+      <Container style={{ flex: 1 }}>
+        <Register2Svg />
 
-      <ViewInput>
-        <Name style={{ position: 'absolute', left: 0, marginHorizontal: 10 }} />
-        {loading
-          ? (
-            <Text style={{ fontSize: 14, marginLeft: 40, color: 'green' }}>
-              Validando
-            </Text>
-          ) : (
-            <ValueInput
-              value={search}
-              autoCompleteType="name"
-              onChangeText={(text:string) => seEmail(text)}
-              placeholder="Nome"
-              keyboardType="default"
-            />
-          )}
+        <ViewInput>
+          <Name style={{ position: 'absolute', left: 0, marginHorizontal: 10 }} />
+          {loading
+            ? (
+              <Text style={{ fontSize: 14, marginLeft: 40, color: 'green' }}>
+                Validando
+              </Text>
+            ) : (
+              <ValueInput
+                value={search}
+                autoCompleteType="name"
+                onChangeText={(text:string) => setNewName(text)}
+                placeholder="Nome"
+                keyboardType="default"
+              />
+            )}
 
-      </ViewInput>
+        </ViewInput>
 
-      <View>
-        {error ? <Text style={{ color: 'red' }}>Erro no Login, Tente Novamente</Text> : null }
-      </View>
+        <View>
+          {error ? <Text style={{ color: 'red' }}>Erro no Login, Tente Novamente</Text> : null }
+        </View>
 
-      <ViewInput>
-        <CPF style={{ position: 'absolute', left: 0, marginHorizontal: 10 }} />
-        {loading
-          ? (
-            <Text style={{ fontSize: 14, marginLeft: 40, color: 'green' }}>
-              Validando
-            </Text>
-          ) : (
-            <ValueInput
-              value={search}
-              autoCompleteType="cc-number"
-              onChangeText={(text:string) => seEmail(text)}
-              placeholder="CPF"
-              keyboardType="number-pad"
-            />
-          )}
+        <ViewInput>
+          <CPF style={{ position: 'absolute', left: 0, marginHorizontal: 10 }} />
+          {loading
+            ? (
+              <Text style={{ fontSize: 14, marginLeft: 40, color: 'green' }}>
+                Validando
+              </Text>
+            ) : (
+              <ValueInput
+                value={search}
+                autoCompleteType="cc-number"
+                onChangeText={(text:string) => setNewCPF(text)}
+                placeholder="CPF"
+                keyboardType="number-pad"
+              />
+            )}
 
-      </ViewInput>
+        </ViewInput>
 
-      <ViewInput>
-        <Phone style={{ position: 'absolute', left: 0, marginHorizontal: 10 }} />
-        {loading
-          ? (
-            <Text style={{ fontSize: 14, marginLeft: 40, color: 'green' }}>
-              Validando
-            </Text>
-          ) : (
-            <ValueInput
-              value={search}
-              autoCompleteType="cc-number"
-              onChangeText={(text:string) => seEmail(text)}
-              placeholder="Telefone"
-              keyboardType="number-pad"
-            />
-          )}
+        <ViewInput>
+          <Phone style={{ position: 'absolute', left: 0, marginHorizontal: 10 }} />
+          {loading
+            ? (
+              <Text style={{ fontSize: 14, marginLeft: 40, color: 'green' }}>
+                Validando
+              </Text>
+            ) : (
+              <ValueInput
+                value={search}
+                autoCompleteType="cc-number"
+                onChangeText={(text:string) => setNewPhone(text)}
+                placeholder="Telefone"
+                keyboardType="number-pad"
+              />
+            )}
 
-      </ViewInput>
+        </ViewInput>
 
-      <View style={{ width: 295, alignItems: 'flex-end' }} />
-      {loading ? (
-        <ButtonLogin
-          activeOpacity={1}
-          title="Processando..."
-        />
-      ) : (
-        <ButtonLogin
-          title="Continuar"
-          activeOpacity={0.8}
-          onPress={() => { navigation.navigate(Register3) }}
-        />
-      )}
+        <View style={{ width: 295, alignItems: 'flex-end' }} />
+        {loading ? (
+          <ButtonLogin
+            activeOpacity={1}
+            title="Processando..."
+          />
+        ) : (
+          <ButtonLogin
+            title="Continuar"
+            activeOpacity={0.8}
+            onPress={() => { navigation.navigate(Register3), handlePost() }}
+          />
+        )}
 
-    </Container>
+      </Container>
+    </UserContextProvider>
   )
 }

@@ -15,6 +15,7 @@ import Location from '../../assets/imageIcons/location.svg'
 import Register3Svg from '../../assets/resgister/register3.svg'
 
 import api from '../../service/api';
+import { UserContextProvider } from '../../contexts/costumerContext';
 
 type Props = { navigation:any }
 
@@ -22,129 +23,159 @@ export function Register3({ navigation } : Props) {
   const [error, setError] = useState(false)
   const [check, setCheck] = useState(false)
   const [loading, setLoading] = useState(false)
-  const [email, seEmail] = useState(String)
-  const [password, setPassword] = useState(String)
+  const [newStreet, setNewStreet] = useState(String)
+  const [newCity, setNewCity] = useState(String)
+  const [newDistrict, setNewDistrict] = useState(String)
+  const [newNumber, setNewNumber] = useState(String)
+  const [newCEP, setNewCEP] = useState(String)
 
   const [search, setsearch] = useState()
 
+  const handlePost = () => {
+    console.log(
+      'rua:',
+      newStreet,
+      'cidade:',
+      newCity,
+      'bairro:',
+      newDistrict,
+      'numero:',
+      newNumber,
+      'CEP:',
+      newCEP,
+    )
+    const address = {
+      street: newStreet,
+      number: newNumber,
+      neighborhood: newDistrict,
+      city: newCity,
+      zipCode: newCEP,
+      state: 'SP',
+      nickname: 'Casa',
+    }
+  }
+
   return (
-    <Container style={{ flex: 1 }}>
-      <Register3Svg />
 
-      <ViewInput>
+    <UserContextProvider>
+      <Container style={{ flex: 1 }}>
+        <Register3Svg />
 
-        <Location style={{ position: 'absolute', left: 0, marginHorizontal: 10 }} />
+        <ViewInput>
 
-        {loading
-          ? (
-            <Text style={{ fontSize: 14, marginLeft: 40, color: 'green' }}>
-              Validando
-            </Text>
-          ) : (
-            <ValueInput
-              value={search}
-              autoCompleteType="street-address"
-              onChangeText={(text:string) => seEmail(text)}
-              placeholder="Rua"
-              keyboardType="default"
-            />
-          )}
-      </ViewInput>
+          <Location style={{ position: 'absolute', left: 0, marginHorizontal: 10 }} />
 
-      <ViewInput>
+          {loading
+            ? (
+              <Text style={{ fontSize: 14, marginLeft: 40, color: 'green' }}>
+                Validando
+              </Text>
+            ) : (
+              <ValueInput
+                value={search}
+                autoCompleteType="street-address"
+                onChangeText={(text:string) => setNewStreet(text)}
+                placeholder="Rua"
+                keyboardType="default"
+              />
+            )}
+        </ViewInput>
 
-        <Location style={{ position: 'absolute', left: 0, marginHorizontal: 10 }} />
+        <ViewInput>
 
-        {loading
-          ? (
-            <Text style={{ fontSize: 14, marginLeft: 40, color: 'green' }}>
-              Validando
-            </Text>
-          ) : (
-            <ValueInput
-              value={search}
-              autoCompleteType="street-address"
-              onChangeText={(text:string) => seEmail(text)}
-              placeholder="Cidade"
-              keyboardType="default"
-            />
-          )}
-      </ViewInput>
+          <Location style={{ position: 'absolute', left: 0, marginHorizontal: 10 }} />
 
-      <ViewInput>
+          {loading
+            ? (
+              <Text style={{ fontSize: 14, marginLeft: 40, color: 'green' }}>
+                Validando
+              </Text>
+            ) : (
+              <ValueInput
+                value={search}
+                autoCompleteType="street-address"
+                onChangeText={(text:string) => setNewCity(text)}
+                placeholder="Cidade"
+                keyboardType="default"
+              />
+            )}
+        </ViewInput>
 
-        <Location style={{ position: 'absolute', left: 0, marginHorizontal: 10 }} />
+        <ViewInput>
 
-        {loading
-          ? (
-            <Text style={{ fontSize: 14, marginLeft: 40, color: 'green' }}>
-              Validando
-            </Text>
-          ) : (
-            <ValueInput
-              value={search}
-              autoCompleteType="street-address"
-              onChangeText={(text:string) => seEmail(text)}
-              placeholder="Bairro"
-              keyboardType="default"
-            />
-          )}
-      </ViewInput>
+          <Location style={{ position: 'absolute', left: 0, marginHorizontal: 10 }} />
 
-      <ViewInput>
+          {loading
+            ? (
+              <Text style={{ fontSize: 14, marginLeft: 40, color: 'green' }}>
+                Validando
+              </Text>
+            ) : (
+              <ValueInput
+                value={search}
+                autoCompleteType="street-address"
+                onChangeText={(text:string) => setNewDistrict(text)}
+                placeholder="Bairro"
+                keyboardType="default"
+              />
+            )}
+        </ViewInput>
 
-        <Location style={{ position: 'absolute', left: 0, marginHorizontal: 10 }} />
+        <ViewInput>
 
-        {loading
-          ? (
-            <Text style={{ fontSize: 14, marginLeft: 40, color: 'green' }}>
-              Validando
-            </Text>
-          ) : (
-            <ValueInput
-              value={search}
-              autoCompleteType="street-address"
-              onChangeText={(text:string) => seEmail(text)}
-              placeholder="Numero"
-              keyboardType="number-pad"
-            />
-          )}
-      </ViewInput>
+          <Location style={{ position: 'absolute', left: 0, marginHorizontal: 10 }} />
 
-      <ViewInput>
+          {loading
+            ? (
+              <Text style={{ fontSize: 14, marginLeft: 40, color: 'green' }}>
+                Validando
+              </Text>
+            ) : (
+              <ValueInput
+                value={search}
+                autoCompleteType="street-address"
+                onChangeText={(text:string) => setNewNumber(text)}
+                placeholder="Numero"
+                keyboardType="number-pad"
+              />
+            )}
+        </ViewInput>
 
-        <Location style={{ position: 'absolute', left: 0, marginHorizontal: 10 }} />
+        <ViewInput>
 
-        {loading
-          ? (
-            <Text style={{ fontSize: 14, marginLeft: 40, color: 'green' }}>
-              Validando
-            </Text>
-          ) : (
-            <ValueInput
-              value={search}
-              autoCompleteType="street-address"
-              onChangeText={(text:string) => seEmail(text)}
-              placeholder="CEP"
-              keyboardType="number-pad"
-            />
-          )}
-      </ViewInput>
+          <Location style={{ position: 'absolute', left: 0, marginHorizontal: 10 }} />
 
-      <View style={{ width: 295, alignItems: 'flex-end' }} />
-      {loading ? (
-        <ButtonLogin
-          activeOpacity={1}
-          title="Processando..."
-        />
-      ) : (
-        <ButtonLogin
-          title="Continuar"
-          activeOpacity={0.8}
-          onPress={() => { navigation.navigate(RegisterSucess) }}
-        />
-      )}
+          {loading
+            ? (
+              <Text style={{ fontSize: 14, marginLeft: 40, color: 'green' }}>
+                Validando
+              </Text>
+            ) : (
+              <ValueInput
+                value={search}
+                autoCompleteType="street-address"
+                onChangeText={(text:string) => setNewCEP(text)}
+                placeholder="CEP"
+                keyboardType="number-pad"
+              />
+            )}
+        </ViewInput>
 
-    </Container>
+        <View style={{ width: 295, alignItems: 'flex-end' }} />
+        {loading ? (
+          <ButtonLogin
+            activeOpacity={1}
+            title="Processando..."
+          />
+        ) : (
+          <ButtonLogin
+            title="Continuar"
+            activeOpacity={0.8}
+            onPress={() => { navigation.navigate(RegisterSucess), handlePost() }}
+          />
+        )}
+
+      </Container>
+    </UserContextProvider>
   )
 }

@@ -30,8 +30,6 @@ export function Profile({ navigation }:Props) {
           {isOpenModal ? <Text>ola</Text> : <Text>tchau</Text>}
         </Title>
 
-        <TabNavigation check={4} navigation={navigation} />
-
       </Container>
     </UserContextProvider>
   )

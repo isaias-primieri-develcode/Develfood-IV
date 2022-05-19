@@ -16,6 +16,8 @@ import {
 } from './register.styles';
 import api from '../../service/api';
 import { Register2 } from './register.page2';
+import { UserContextProvider } from '../../contexts/costumerContext';
+import { Routes } from '../../routes/index.routes';
 
 type Props = {
   navigation:any
@@ -33,32 +35,35 @@ export function RegisterSucess({ navigation } : Props) {
     setTimeout(resolve, time)
   })
   return (
-    <Container style={{ flex: 1 }}>
-      <RegisterSucessSvg />
-      <Title style={{ color: '#111', fontSize: 32, fontWeight: 'bold' }}>
-        Cadastro finalizado!
-      </Title>
-      <TextView>
-        <Text style={{ fontSize: 12, fontWeight: 'bold' }}>
-          Parabéns! Agora você pode aproveitar nossas ofertas e serviços e economizar
-          com super cupons Develfood.
-        </Text>
-      </TextView>
+    <UserContextProvider>
+      <Container style={{ flex: 1 }}>
+        <RegisterSucessSvg />
+        <Title style={{ color: '#111', fontSize: 32, fontWeight: 'bold' }}>
+          Cadastro finalizado!
+        </Title>
+        <TextView>
+          <Text style={{ fontSize: 12, fontWeight: 'bold' }}>
+            Parabéns! Agora você pode aproveitar nossas ofertas e serviços e economizar
+            com super cupons Develfood.
+          </Text>
+        </TextView>
 
-      <View style={{ width: 295, alignItems: 'flex-end' }} />
-      {loading ? (
-        <ButtonLogin
-          activeOpacity={1}
-          title="Processando..."
-        />
-      ) : (
-        <ButtonLogin
-          title="Concluir"
-          activeOpacity={0.8}
-          onPress={() => { navigation.navigate(Register2) }}
-        />
-      )}
+        <View style={{ width: 295, alignItems: 'flex-end' }} />
+        {loading ? (
+          <ButtonLogin
+            activeOpacity={1}
+            title="Processando..."
+          />
+        ) : (
+          <ButtonLogin
+            title="Concluir"
+            activeOpacity={0.8}
+            onPress={() => { navigation.navigate(Routes) }}
+          />
+        )}
 
-    </Container>
+      </Container>
+
+    </UserContextProvider>
   )
 }
