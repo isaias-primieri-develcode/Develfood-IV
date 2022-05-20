@@ -18,6 +18,7 @@ import api from '../../service/api';
 import { Register2 } from './register.page2';
 import { UserContextProvider } from '../../contexts/costumerContext';
 import { Routes } from '../../routes/index.routes';
+import { Login } from '../Login/login.page';
 
 type Props = {
   navigation:any
@@ -58,7 +59,7 @@ export function RegisterSucess({ navigation } : Props) {
           <ButtonLogin
             title="Concluir"
             activeOpacity={0.8}
-            onPress={() => { navigation.navigate(Routes) }}
+            onPress={() => { }}
           />
         )}
 

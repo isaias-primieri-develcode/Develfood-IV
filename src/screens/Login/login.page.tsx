@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-sequences */
 /* eslint-disable no-unused-expressions */
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import { ButtonLogin } from '../../components/Buttons/Button/button.component';
 import { Home } from '../Home/home.page';
@@ -21,6 +21,8 @@ import api from '../../service/api';
 import { Register1 } from '../register/register.page1';
 import { Sleep } from '../../utils/sleep';
 import { Routes } from '../../routes/index.routes';
+import * as auth from '../../service/auth';
+import AuthContext, { AuthProvider } from '../../contexts/auth';
 
 type Props = {
   navigation:any
@@ -34,6 +36,14 @@ export function Login({ navigation } : Props) {
   const [email, seEmail] = useState(String)
   const [password, setPassword] = useState(String)
 
+  const { signed, signIn } = useContext(AuthContext)
+
+  console.log(signed)
+
+  async function handleSignIn() {
+    signIn()
+  }
+
   const handlePost = () => {
     api.post('/auth', {
       email,
@@ -45,8 +55,9 @@ export function Login({ navigation } : Props) {
     }).then((request) => {
       console.log(request.status)
       if (request.status === 200) {
-        navigation.navigate(Routes)
+        // navigation.navigate(Routes)
         setError(false)
+        handleSignIn()
       } else {
         setError(true)
       }

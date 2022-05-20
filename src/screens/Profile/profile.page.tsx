@@ -3,8 +3,9 @@
 /* eslint-disable react/jsx-no-constructed-context-values */
 /* eslint-disable react/self-closing-comp */
 import React, { useContext, useState } from 'react';
-import { Text, TouchableOpacity } from 'react-native';
+import { Button, Text, TouchableOpacity } from 'react-native';
 import { TabNavigation } from '../../components/Buttons/Routes/TabNavigation/tabNavigation';
+import AuthContext from '../../contexts/auth';
 import { UserContext, UserContextProvider } from '../../contexts/costumerContext';
 
 import {
@@ -17,6 +18,7 @@ type Props = {
 
 export function Profile({ navigation }:Props) {
   const { isOpenModal, setIsOpenModal } = useContext(UserContext)
+  const { logOut } = useContext(AuthContext)
 
   return (
     <UserContextProvider>
@@ -29,6 +31,7 @@ export function Profile({ navigation }:Props) {
         <Title>
           {isOpenModal ? <Text>ola</Text> : <Text>tchau</Text>}
         </Title>
+        <Button title="deslogar" onPress={() => { logOut() }} />
 
       </Container>
     </UserContextProvider>
