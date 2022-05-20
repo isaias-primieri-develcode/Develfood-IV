@@ -1,9 +1,12 @@
+/* eslint-disable object-shorthand */
 /* eslint-disable no-console */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-sequences */
 /* eslint-disable no-unused-expressions */
 import React, { useContext, useState } from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
+import {
+  Alert, Text, TouchableOpacity, View,
+} from 'react-native';
 import { ButtonLogin } from '../../components/Buttons/Button/button.component';
 import { Home } from '../Home/home.page';
 import MiniLogo from '../../assets/images/miniLogo.svg'
@@ -22,7 +25,17 @@ import { Register1 } from '../register/register.page1';
 import { Sleep } from '../../utils/sleep';
 import { Routes } from '../../routes/index.routes';
 import * as auth from '../../service/auth';
-import AuthContext, { AuthProvider } from '../../contexts/auth';
+import AuthContext, { AuthProvider, useAuth } from '../../contexts/auth';
+import { usePost } from '../../service/post';
+
+interface CreateUserRequest {
+  email: string
+  password: string
+}
+interface TResponse {
+  token: string
+  type: string
+}
 
 type Props = {
   navigation:any
@@ -36,7 +49,10 @@ export function Login({ navigation } : Props) {
   const [email, seEmail] = useState(String)
   const [password, setPassword] = useState(String)
 
-  const { signed, signIn } = useContext(AuthContext)
+  const {
+    authState, setAuthState, signIn, signed,
+  } = useAuth();
+  console.log(authState);
 
   console.log(signed)
 
@@ -44,25 +60,45 @@ export function Login({ navigation } : Props) {
     signIn()
   }
 
-  const handlePost = () => {
-    api.post('/auth', {
-      email,
-      password,
-      creationDate: '2022-05-02',
-      role: {
-        id: 2,
-      },
-    }).then((request) => {
-      console.log(request.status)
-      if (request.status === 200) {
-        // navigation.navigate(Routes)
-        setError(false)
-        handleSignIn()
-      } else {
-        setError(true)
-      }
-    })
-  }
+  const {
+    data: dataPost,
+    handlerPost,
+    loading: loadingsPost,
+    error: errorPost,
+  } = usePost<CreateUserRequest, TResponse>(
+    '/auth',
+    {
+      email: email,
+      password: password,
+    },
+    undefined,
+    (dataReturn) => {
+      setAuthState(dataReturn);
+      Alert.alert('você foi logado');
+      console.log('ta garantido bixo');
+      navigation.navigate(signIn());
+    },
+  );
+
+  // const handlePost = () => {
+  //   api.post('/auth', {
+  //     email,
+  //     password,
+  //     creationDate: '2022-05-02',
+  //     role: {
+  //       id: 2,
+  //     },
+  //   }).then((request) => {
+  //     console.log(request.status)
+  //     if (request.status === 200) {
+  //       // navigation.navigate(Routes)
+  //       setError(false)
+  //       handleSignIn()
+  //     } else {
+  //       setError(true)
+  //     }
+  //   })
+  // }
 
   return (
     <Container style={{ flex: 1 }}>
@@ -131,7 +167,7 @@ export function Login({ navigation } : Props) {
         </TouchableOpacity>
 
       </View>
-      {loading ? <ButtonLogin activeOpacity={1} title="Processando..." /> : <ButtonLogin title="Entrar" activeOpacity={0.8} onPress={() => { handlePost(), setLoading(true), Sleep(4000).then(() => { setError(true), setLoading(false) }), Sleep(5500).then(() => { setError(false) }) }} />}
+      {loading ? <ButtonLogin activeOpacity={1} title="Processando..." /> : <ButtonLogin title="Entrar" activeOpacity={0.8} onPress={() => { handlerPost(), setLoading(true), Sleep(4000).then(() => { setError(true), setLoading(false) }), Sleep(5500).then(() => { setError(false) }) }} />}
 
       <TouchableOpacity activeOpacity={0.8} style={{ flexDirection: 'row' }} onPress={() => navigation.navigate(Register1)}>
         <Text style={{ paddingTop: 16, fontWeight: 'bold', color: '#68484A' }}>

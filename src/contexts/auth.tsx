@@ -1,7 +1,9 @@
 /* eslint-disable no-console */
 /* eslint-disable react/function-component-definition */
 /* eslint-disable react/jsx-no-constructed-context-values */
-import React, { createContext, useEffect, useState } from 'react';
+import React, {
+  createContext, useContext, useEffect, useState,
+} from 'react';
 import AsyncStorage from '@react-native-community/async-storage'
 import * as auth from '../service/auth';
 
@@ -10,14 +12,18 @@ interface AuthContextData{
   user: object | null,
   signIn() : Promise<void>
   logOut() : void
+  authState: PropContext
+  setAuthState: React.Dispatch<React.SetStateAction<PropContext>>
+}
+interface PropContext {
   token: string
-
+  type: string
 }
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData)
 export const AuthProvider: React.FC = ({ children }) => {
   const [user, setUser] = useState<object | null>(null)
-  const [token, setToken] = useState('')
+  const [authState, setAuthState] = useState({} as PropContext)
 
   useEffect(() => {
     async function LoadedStoragedData() {
@@ -36,7 +42,6 @@ export const AuthProvider: React.FC = ({ children }) => {
       },
     )
   }
-
   async function signIn() {
     const response = await auth.signIn()
     setUser(response.user)
@@ -45,12 +50,16 @@ export const AuthProvider: React.FC = ({ children }) => {
   }
   return (
     <AuthContext.Provider value={{
-      signed: !!user, user, signIn, logOut, token,
+      signed: !!user, user, signIn, logOut, authState, setAuthState,
     }}
     >
       {children}
     </AuthContext.Provider>
   )
+}
+export function useAuth() {
+  const context = useContext(AuthContext)
+  return context
 }
 
 export default AuthContext
