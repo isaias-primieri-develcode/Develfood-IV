@@ -3,12 +3,11 @@
 /* eslint-disable no-sequences */
 /* eslint-disable no-unused-expressions */
 import React, { useState } from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
+import { Text, View } from 'react-native';
+import { Controller, useForm } from 'react-hook-form';
+import * as Yup from 'yup'
+import { yupResolver } from '@hookform/resolvers/yup';
 import { ButtonLogin } from '../../components/Buttons/Button/button.component';
-import { Home } from '../Home/home.page';
-import MiniLogo from '../../assets/images/miniLogo.svg'
-import PizzaPng from '../../assets/images/pizza.png'
-import XburguerPng from '../../assets/images/xburguer.png'
 import Phone from '../../assets/imageIcons/phone.svg'
 import CPF from '../../assets/imageIcons/cpf.svg'
 import Name from '../../assets/imageIcons/name.svg'
@@ -22,6 +21,8 @@ import {
 import api from '../../service/api';
 import { Register3 } from './register.page3';
 import { UserContextProvider } from '../../contexts/costumerContext';
+import { useRegister } from '../../contexts/register';
+import { phoneNumber } from '../../utils/validations';
 
 type Props = {
   navigation:any
@@ -29,12 +30,22 @@ type Props = {
 }
 
 export function Register2({ navigation } : Props) {
-  const [error, setError] = useState(false)
+  const [error, setError] = useState(true)
   const [check, setCheck] = useState(false)
   const [loading, setLoading] = useState(false)
-  const [newName, setNewName] = useState(String)
-  const [newCPF, setNewCPF] = useState(String)
-  const [newPhone, setNewPhone] = useState(String)
+  const { newName, setNewName } = useRegister()
+  const { newCPF, setNewCPF } = useRegister()
+  const { newPhone, setNewPhone } = useRegister()
+
+  const schema = Yup.object({
+    newName: Yup.string().required().email(),
+    newCPF: Yup.string().required().min(4),
+    newPhone: Yup.string().matches(phoneNumber),
+  }).required();
+
+  const { register, handleSubmit, formState: { errors } } = useForm({
+    resolver: yupResolver(schema),
+  });
 
   const [search, setsearch] = useState()
 
@@ -48,6 +59,9 @@ export function Register2({ navigation } : Props) {
       newPhone,
     )
   }
+  // if (newName && newCPF && newPhone) {
+  //   setError(false)
+  // }
 
   return (
     <UserContextProvider>
@@ -72,10 +86,6 @@ export function Register2({ navigation } : Props) {
             )}
 
         </ViewInput>
-
-        <View>
-          {error ? <Text style={{ color: 'red' }}>Erro no Login, Tente Novamente</Text> : null }
-        </View>
 
         <ViewInput>
           <CPF style={{ position: 'absolute', left: 0, marginHorizontal: 10 }} />
@@ -116,17 +126,34 @@ export function Register2({ navigation } : Props) {
         </ViewInput>
 
         <View style={{ width: 295, alignItems: 'flex-end' }} />
-        {loading ? (
-          <ButtonLogin
-            activeOpacity={1}
-            title="Processando..."
-          />
-        ) : (
+        {newName && newCPF && newPhone ? (
           <ButtonLogin
             title="Continuar"
             activeOpacity={0.8}
             onPress={() => { navigation.navigate(Register3), handlePost() }}
           />
+        ) : (
+          <View style={{
+            marginTop: 12,
+            borderRadius: 8,
+            borderColor: '#bbb',
+            borderWidth: 1,
+            width: 295,
+            height: 50,
+            alignItems: 'center',
+            justifyContent: 'center',
+
+          }}
+          >
+            <Text style={{
+              color: 'red',
+              fontSize: 14,
+            }}
+            >
+              Todos os campos são obrigatórios
+            </Text>
+          </View>
+
         )}
 
       </Container>

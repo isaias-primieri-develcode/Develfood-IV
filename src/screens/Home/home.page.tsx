@@ -27,7 +27,7 @@ export function Home({ navigation } : PropsN) {
   // setinfo(infor)
 
   const handlePost = () => {
-    api.post('/auth', {
+    api.post('/user', {
 
       email: 'testerdddcostumer2@email.com',
       password: '123456',
@@ -64,10 +64,31 @@ export function Home({ navigation } : PropsN) {
   }
   const handlePut = () => {
     api.put('/public/v2/users/9018', {
-      email: 'loadvs@develcode.com',
-      name: 'ytrisfdsas',
-      gender: 'male',
-      status: 'active',
+      email: 'tentativa1@email.com',
+      password: '123456',
+      creationDate: '2022-05-02',
+      role: {
+        id: 2,
+      },
+      costumer: {
+        firstName: 'firstName',
+        lastName: 'lastName',
+        cpf: '098.7654.321-00',
+        phone: '(12)997485733',
+        photo: '',
+        address: [
+          {
+            street: 'Rua lasanha',
+            number: '348',
+            neighborhood: 'Jardim das rações',
+            city: 'Tabuanopé',
+            zipCode: '11140808',
+            state: 'SP',
+            nickname: 'Casa',
+          },
+        ],
+      },
+
     }, {
       headers: {
         'Content-type': 'application/json',

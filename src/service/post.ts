@@ -17,11 +17,9 @@ export function usePost<T = unknown, TResponse = unknown>(
 ) {
   const navigation = useNavigation();
   const [data, setData] = useState<TResponse>({} as TResponse);
-  const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<Error | unknown | null>(null);
 
   async function handlerPost() {
-    setLoading(true);
     try {
       const response = await api.post<TResponse>(url, body, options);
       setData(response.data);
@@ -32,10 +30,9 @@ export function usePost<T = unknown, TResponse = unknown>(
       setError(error);
       onError && onError(error);
     }
-    setLoading(false);
   }
 
   return {
-    data, handlerPost, loading, error,
+    data, handlerPost, error,
   };
 }

@@ -19,6 +19,7 @@ import { Register2 } from './register.page2';
 import { UserContextProvider } from '../../contexts/costumerContext';
 import { Routes } from '../../routes/index.routes';
 import { Login } from '../Login/login.page';
+import { useRegister } from '../../contexts/register';
 
 type Props = {
   navigation:any
@@ -29,8 +30,44 @@ export function RegisterSucess({ navigation } : Props) {
   const [error, setError] = useState(false)
   const [check, setCheck] = useState(false)
   const [loading, setLoading] = useState(false)
-  const [email, seEmail] = useState(String)
-  const [password, setPassword] = useState(String)
+  const { newEmail, setNewEmail } = useRegister()
+  const { newPassword, setNewPassword } = useRegister()
+  const { newName, setNewName } = useRegister()
+  const { newCPF, setNewCPF } = useRegister()
+  const { newPhone, setNewPhone } = useRegister()
+  const { newStreet, setNewStreet } = useRegister()
+  const { newCity, setNewCity } = useRegister()
+  const { newDistrict, setNewDistrict } = useRegister()
+  const { newNumber, setNewNumber } = useRegister()
+  const { newCEP, setNewCEP } = useRegister()
+
+  const handlePost = () => {
+    api.post('/user', {
+      email: newEmail,
+      password: newPassword,
+      creationDate: '2022-05-02',
+      role: {
+        id: 2,
+      },
+      costumer: {
+        firstName: newName,
+        lastName: 'lastName',
+        cpf: newCPF,
+        phone: newPhone,
+        photo: '',
+        address: [{
+          street: newStreet,
+          number: newNumber,
+          neighborhood: newDistrict,
+          city: newCity,
+          zipCode: newCEP,
+          state: 'SP',
+          nickname: 'Casa',
+        }],
+      },
+
+    })
+  }
 
   const sleep = (time:any) => new Promise((resolve) => {
     setTimeout(resolve, time)
@@ -59,7 +96,7 @@ export function RegisterSucess({ navigation } : Props) {
           <ButtonLogin
             title="Concluir"
             activeOpacity={0.8}
-            onPress={() => { }}
+            onPress={() => { navigation.navigate(Login), handlePost() }}
           />
         )}
 

@@ -10,6 +10,7 @@ import { Register2 } from '../screens/register/register.page2';
 import { Register3 } from '../screens/register/register.page3';
 import { RegisterSucess } from '../screens/register/registerSucess.page';
 import { Routes } from './index.routes';
+import { RegisterTest } from '../screens/register/test';
 
 const Stack = createNativeStackNavigator()
 
@@ -48,6 +49,11 @@ export function LoginRoutes() {
         options={{ headerShown: false, animation: 'fade' }}
         name="Routes"
         component={Routes}
+      />
+      <Stack.Screen
+        options={{ headerShown: false, animation: 'fade' }}
+        name="RegisterTest"
+        component={RegisterTest}
       />
     </Stack.Navigator>
   );

@@ -1,12 +1,18 @@
+/* eslint-disable no-const-assign */
+/* eslint-disable no-constant-condition */
+/* eslint-disable eqeqeq */
+/* eslint-disable yoda */
+/* eslint-disable no-cond-assign */
 /* eslint-disable object-shorthand */
 /* eslint-disable no-console */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-sequences */
 /* eslint-disable no-unused-expressions */
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
-  Alert, Text, TouchableOpacity, View,
+  Alert, Button, Text, TouchableOpacity, View,
 } from 'react-native';
+import * as Yup from 'yup'
 import { ButtonLogin } from '../../components/Buttons/Button/button.component';
 import { Home } from '../Home/home.page';
 import MiniLogo from '../../assets/images/miniLogo.svg'
@@ -54,16 +60,22 @@ export function Login({ navigation } : Props) {
   } = useAuth();
   console.log(authState);
 
-  console.log(signed)
+  // console.log(signed)
 
   async function handleSignIn() {
     signIn()
   }
 
+  // function verify() {
+  //   if ('@' in ) {
+  //     Alert.alert('certo')
+  //     console.log('ok')
+  //   }
+  // }
+
   const {
     data: dataPost,
     handlerPost,
-    loading: loadingsPost,
     error: errorPost,
   } = usePost<CreateUserRequest, TResponse>(
     '/auth',
@@ -74,8 +86,7 @@ export function Login({ navigation } : Props) {
     undefined,
     (dataReturn) => {
       setAuthState(dataReturn);
-      Alert.alert('você foi logado');
-      console.log('ta garantido bixo');
+      console.log('logado com sucesso');
       navigation.navigate(signIn());
     },
   );
@@ -115,7 +126,6 @@ export function Login({ navigation } : Props) {
         {loading ? <Text style={{ fontSize: 14, marginLeft: 40, color: 'green' }}>Validando</Text> : (
           <ValueInput
             autoCompleteType="email"
-            defaultValue="exemplo@email.co"
             onChangeText={(text:string) => seEmail(text)}
             placeholder="email@example.com"
             keyboardType="email-address"
@@ -123,8 +133,9 @@ export function Login({ navigation } : Props) {
         )}
 
       </ViewInput>
+      <Text />
       <View>
-        {error ? <Text style={{ color: 'red' }}>Erro no Login, Tente Novamente</Text> : null }
+        {error ? <Text style={{ color: 'red' }}>E-mail ou senha invalidos. Tente novamente!</Text> : null }
       </View>
 
       <ViewInput>
@@ -151,7 +162,6 @@ export function Login({ navigation } : Props) {
         {loading ? <Text style={{ fontSize: 14, marginLeft: 40, color: 'green' }}>Validando</Text> : (
           <ValueInput
             placeholder="Senha"
-            defaultValue="12345"
             onChangeText={(text) => setPassword(text)}
             secureTextEntry={!check}
 
@@ -167,9 +177,24 @@ export function Login({ navigation } : Props) {
         </TouchableOpacity>
 
       </View>
-      {loading ? <ButtonLogin activeOpacity={1} title="Processando..." /> : <ButtonLogin title="Entrar" activeOpacity={0.8} onPress={() => { handlerPost(), setLoading(true), Sleep(4000).then(() => { setError(true), setLoading(false) }), Sleep(5500).then(() => { setError(false) }) }} />}
+      {loading ? <ButtonLogin activeOpacity={1} title="Processando..." /> : (
+        <ButtonLogin
+          title="Entrar"
+          activeOpacity={0.8}
+          onPress={() => {
+            handlerPost(),
+            setLoading(true),
+            Sleep(4000).then(() => { setError(true), setLoading(false) }),
+            Sleep(9000).then(() => { setError(false) })
+          }}
+        />
+      )}
 
-      <TouchableOpacity activeOpacity={0.8} style={{ flexDirection: 'row' }} onPress={() => navigation.navigate(Register1)}>
+      <TouchableOpacity
+        activeOpacity={0.8}
+        style={{ flexDirection: 'row' }}
+        onPress={() => navigation.navigate(Register1)}
+      >
         <Text style={{ paddingTop: 16, fontWeight: 'bold', color: '#68484A' }}>
           Não possui cadastro?
           {' '}

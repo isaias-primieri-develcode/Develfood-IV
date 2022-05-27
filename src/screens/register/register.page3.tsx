@@ -16,6 +16,7 @@ import Register3Svg from '../../assets/resgister/register3.svg'
 
 import api from '../../service/api';
 import { UserContextProvider } from '../../contexts/costumerContext';
+import { useRegister } from '../../contexts/register';
 
 type Props = { navigation:any }
 
@@ -23,11 +24,11 @@ export function Register3({ navigation } : Props) {
   const [error, setError] = useState(false)
   const [check, setCheck] = useState(false)
   const [loading, setLoading] = useState(false)
-  const [newStreet, setNewStreet] = useState(String)
-  const [newCity, setNewCity] = useState(String)
-  const [newDistrict, setNewDistrict] = useState(String)
-  const [newNumber, setNewNumber] = useState(String)
-  const [newCEP, setNewCEP] = useState(String)
+  const { newStreet, setNewStreet } = useRegister()
+  const { newCity, setNewCity } = useRegister()
+  const { newDistrict, setNewDistrict } = useRegister()
+  const { newNumber, setNewNumber } = useRegister()
+  const { newCEP, setNewCEP } = useRegister()
 
   const [search, setsearch] = useState()
 
@@ -162,17 +163,34 @@ export function Register3({ navigation } : Props) {
         </ViewInput>
 
         <View style={{ width: 295, alignItems: 'flex-end' }} />
-        {loading ? (
-          <ButtonLogin
-            activeOpacity={1}
-            title="Processando..."
-          />
-        ) : (
+        {newCEP && newCity && newDistrict && newNumber && newStreet ? (
           <ButtonLogin
             title="Continuar"
             activeOpacity={0.8}
             onPress={() => { navigation.navigate(RegisterSucess), handlePost() }}
           />
+        ) : (
+          <View style={{
+            marginTop: 12,
+            borderRadius: 8,
+            borderColor: '#bbb',
+            borderWidth: 1,
+            width: 295,
+            height: 50,
+            alignItems: 'center',
+            justifyContent: 'center',
+
+          }}
+          >
+            <Text style={{
+              color: 'red',
+              fontSize: 14,
+            }}
+            >
+              Todos os campos são obrigatórios
+            </Text>
+          </View>
+
         )}
 
       </Container>
