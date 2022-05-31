@@ -1,20 +1,20 @@
+/* eslint-disable brace-style */
+/* eslint-disable block-spacing */
+/* eslint-disable indent */
 /* eslint-disable keyword-spacing */
 /* eslint-disable max-len */
 /* eslint-disable no-console */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-sequences */
 /* eslint-disable no-unused-expressions */
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import * as yup from 'yup'
 import {
-  Button,
   Text, View,
 } from 'react-native';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm } from 'react-hook-form';
 import { Formik } from 'formik';
-import { ButtonLogin } from '../../components/Buttons/Button/button.component';
-import { Home } from '../Home/home.page';
+import { useNavigation } from '@react-navigation/native';
+import { ButtonLogin } from '../../components/Button/button.component';
 import HiddenPassword from '../../assets/imageIcons/hiddenPassword.svg'
 import Email from '../../assets/imageIcons/email.svg'
 import PasswordDown from '../../assets/imageIcons/password.svg'
@@ -23,87 +23,62 @@ import Register1Svg from '../../assets/resgister/register1.svg'
 import {
   Container, ValueInput, ViewInput, Password,
 } from './register.styles';
-import api from '../../service/api';
 import { Register2 } from './register.page2';
-import { UserContextProvider } from '../../contexts/costumerContext';
-import { useRegister } from '../../contexts/register';
-import { RegisterTest } from './test';
-import { Sleep } from '../../utils/sleep';
 import { AuthProvider } from '../../contexts/auth';
 
-type Props = {
-  navigation:any
-
-}
-
-export function Register1({ navigation } : Props) {
+export function Register1() {
   const [check, setCheck] = useState(Boolean)
-  const [loading, setLoading] = useState(false)
-  const { error, setError } = useRegister()
-  const { newEmail, setNewEmail } = useRegister()
-  const { newPassword, setNewPassword } = useRegister()
-  const [verifyNewPassword, setVerifyNewPassword] = useState(String)
+  const navigation = useNavigation()
   const loginValidationSchema = yup.object().shape({
     email: yup
       .string()
-      .email('Please enter valid email')
-      .required('Email Address is Required'),
+      .email('Por favor adicione um e-mail')
+      .required('Endereço de e-mail obrigatório'),
     password: yup
       .string()
-      .min(6, ({ min }) => `Password must be at least ${min} characters`)
-      .required('Password is required'),
+      .min(6, ({ min }) => `A senha deve ter no minimo ${min} caracteres`)
+      .oneOf([yup.ref('password_confirm'), null], 'as senhas devem ser iguais')
+      .required('Senha obrigatória'),
+    password_confirm: yup
+      .string()
+      .min(6, ({ min }) => `A senha deve ter no minimo ${min} caracteres`)
+      .required('Password confirm is required'),
+
   })
 
-  const handlePost = () => {
-    console.log(
-      'email:',
-      newEmail,
-      'senha:',
-      newPassword,
-    )
-  }
-
   return (
-    <UserContextProvider>
-      <AuthProvider>
+    <Container style={{ flex: 1, height: '100%', justifyContent: 'flex-start' }}>
+      <View style={{ height: 30 }} />
+      <Register1Svg />
+      <Formik
+        validationSchema={loginValidationSchema}
+        initialValues={{ email: '', password: '', password_confirm: '' }}
+        onSubmit={(values) => {
+}}
+      >
+        {({
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            values,
+            errors,
+            touched,
+            isValid,
+          }) => (
+            <>
 
-        <Container style={{ flex: 1 }}>
-          <Register1Svg />
-          <Formik
-            validationSchema={loginValidationSchema}
-            initialValues={{ email: '', password: '' }}
-            onSubmit={(values) => { setNewEmail(values.email), setNewPassword(values.password), console.log(values) }}
-          >
-            {({
-              handleChange,
-              handleBlur,
-              handleSubmit,
-              values,
-              errors,
-              touched,
-              isValid,
-            }) => (
-              <>
+              <ViewInput>
+                <Email style={{ position: 'absolute', left: 0, marginHorizontal: 10 }} />
+                <ValueInput
+                  placeholder="Email Address"
+                  onChangeText={handleChange('email')}
+                  onBlur={handleBlur('email')}
+                  value={values.email}
+                  keyboardType="email-address"
+                />
 
-                <ViewInput>
-                  <Email style={{ position: 'absolute', left: 0, marginHorizontal: 10 }} />
-                  {loading
-                    ? (
-                      <Text style={{ fontSize: 14, marginLeft: 40, color: 'green' }}>
-                        Validando
-                      </Text>
-                    ) : (
-                      <ValueInput
-                        placeholder="Email Address"
-                        onChangeText={handleChange('email')}
-                        onBlur={handleBlur('email')}
-                        value={values.email}
-                        keyboardType="email-address"
-                      />
-                    )}
-
-                </ViewInput>
-                {(errors.email && touched.email)
+              </ViewInput>
+              {(errors.email && touched.email)
                   && (
                   <Text style={{
 
@@ -116,46 +91,36 @@ export function Register1({ navigation } : Props) {
                   </Text>
                   )}
 
-                <View>
-                  {error ? <Text style={{ color: 'red' }}>Erro no Cadastro, Tente Novamente</Text> : null }
-                </View>
+              <ViewInput>
+                <Password style={{ alignItems: 'center' }}>
 
-                <ViewInput>
-                  <Password style={{ alignItems: 'center' }}>
-
-                    <PasswordDown />
-                  </Password>
-                  {check
-                    ? (
-                      <HiddenPassword
-                        style={{
-                          position: 'absolute', right: 0, marginHorizontal: 10, backgroundColor: '#55a2', borderRadius: 8,
-                        }}
-                        onPress={() => { setCheck(!check) }}
-                      />
-                    )
-                    : (
-                      <HiddenPassword
-                        style={{ position: 'absolute', right: 0, marginHorizontal: 10 }}
-                        onPress={() => { setCheck(!check) }}
-                      />
-                    )}
-                  {loading ? (
-                    <Text style={{ fontSize: 14, marginLeft: 40, color: 'green' }}>
-                      Validando
-                    </Text>
-                  ) : (
-                    <ValueInput
-                      placeholder="Password"
-                      onChangeText={handleChange('password')}
-                      onBlur={handleBlur('password')}
-                      value={values.password}
-                      secureTextEntry={!check}
+                  <PasswordDown />
+                </Password>
+                {check
+                  ? (
+                    <HiddenPassword
+                      style={{
+                    position: 'absolute', right: 0, marginHorizontal: 10, backgroundColor: '#55a2', borderRadius: 8,
+                  }}
+                      onPress={() => { setCheck(!check) }}
                     />
-
+                  )
+                  : (
+                    <HiddenPassword
+                      style={{ position: 'absolute', right: 0, marginHorizontal: 10 }}
+                      onPress={() => { setCheck(!check) }}
+                    />
                   )}
-                </ViewInput>
-                {(errors.password && touched.password)
+                <ValueInput
+                  placeholder="Password"
+                  onChangeText={handleChange('password')}
+                  onBlur={handleBlur('password')}
+                  value={values.password}
+                  secureTextEntry={!check}
+                />
+
+              </ViewInput>
+              {(errors.password && touched.password)
                   && (
                   <Text style={{
                     fontSize: 10,
@@ -165,29 +130,45 @@ export function Register1({ navigation } : Props) {
                     {errors.password}
                   </Text>
                   )}
-                <ViewInput style={verifyNewPassword === values.password ? { backgroundColor: '#55ff5520' } : { backgroundColor: '#ff555520' }}>
-                  <Password style={{ alignItems: 'center' }}>
-                    <PasswordDown />
-                  </Password>
+              <ViewInput>
+                <Password style={{ alignItems: 'center' }}>
+                  <PasswordDown />
+                </Password>
 
-                  <ValueInput
-                    placeholder="Confirmar Senha"
-                    onChangeText={(text) => setVerifyNewPassword(text)}
-                    secureTextEntry={!check}
-                  />
-                </ViewInput>
-                <ButtonLogin
-                  title="Continuar"
-                  activeOpacity={0.8}
-                  disabled={!isValid || (verifyNewPassword === newPassword)}
-                  onPress={() => { navigation.navigate(RegisterTest), handleSubmit(), Sleep(2000).then(handlePost) }}
+                <ValueInput
+                  onChangeText={handleChange('password_confirm')}
+                  onBlur={handleBlur('password_confirm')}
+                  value={values.password_confirm}
+                  secureTextEntry={!check}
+                  placeholder="Confirmar Senha"
                 />
-              </>
-            )}
-          </Formik>
+              </ViewInput>
+              {values.password !== '' && values.email !== ''
+                ? (
+                  <ButtonLogin
+                    title="Continuar"
+                    activeOpacity={0.8}
+                    style={isValid ? { opacity: 1 } : { opacity: 0.6 }}
+                    disabled={!isValid}
+                    onPress={() => { navigation.navigate('Register2'), handleSubmit() }}
+                  />
+                )
+                : (
+                  <>
+                    <ButtonLogin
+                      style={{ opacity: 0.6 }}
+                      title="Continuar"
+                      activeOpacity={0.8}
+                      disabled
+                      onPress={() => { navigation.navigate('Register2'), handleSubmit() }}
+                    />
+                    <Text style={{ color: 'red', marginTop: 16 }}>Preencha todos os campos</Text>
+                  </>
+                )}
+            </>
+          )}
+      </Formik>
 
-        </Container>
-      </AuthProvider>
-    </UserContextProvider>
+    </Container>
   )
 }

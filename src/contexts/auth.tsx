@@ -5,12 +5,11 @@ import React, {
   createContext, useContext, useEffect, useState,
 } from 'react';
 import AsyncStorage from '@react-native-community/async-storage'
-import * as auth from '../service/auth';
 
 interface AuthContextData{
   signed: boolean,
   user: object | null,
-  signIn() : Promise<void>
+  // signIn() : Promise<void>
   logOut() : void
   authState: PropContext
   setAuthState: React.Dispatch<React.SetStateAction<PropContext>>
@@ -42,15 +41,15 @@ export const AuthProvider: React.FC = ({ children }) => {
       },
     )
   }
-  async function signIn() {
-    const response = await auth.signIn()
-    setUser(response.user)
-    AsyncStorage.setItem('@Develfood-IV:user', JSON.stringify(response.user))
-    AsyncStorage.setItem('@Develfood-IV:token', response.token)
-  }
+  // async function signIn() {
+  //   const response = await auth.signIn()
+  //   setUser(response.user)
+  //   AsyncStorage.setItem('@Develfood-IV:user', JSON.stringify(response.user))
+  //   AsyncStorage.setItem('@Develfood-IV:token', response.token)
+  // }
   return (
     <AuthContext.Provider value={{
-      signed: !!user, user, signIn, logOut, authState, setAuthState,
+      signed: !!user, user, logOut, authState, setAuthState,
     }}
     >
       {children}

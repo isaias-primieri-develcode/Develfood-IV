@@ -1,162 +1,160 @@
+/* eslint-disable max-len */
 /* eslint-disable no-console */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-sequences */
 /* eslint-disable no-unused-expressions */
-import React, { useState } from 'react';
-import { Text, View } from 'react-native';
-import { Controller, useForm } from 'react-hook-form';
+import React from 'react';
+import { Text } from 'react-native';
 import * as Yup from 'yup'
-import { yupResolver } from '@hookform/resolvers/yup';
-import { ButtonLogin } from '../../components/Buttons/Button/button.component';
+import { Formik } from 'formik';
+import { useNavigation } from '@react-navigation/native';
+import { ButtonLogin } from '../../components/Button/button.component';
 import Phone from '../../assets/imageIcons/phone.svg'
 import CPF from '../../assets/imageIcons/cpf.svg'
 import Name from '../../assets/imageIcons/name.svg'
 
-import PasswordDown from '../../assets/imageIcons/password.svg'
 import Register2Svg from '../../assets/resgister/register2.svg'
 
 import {
-  Container, ValueInput, Ketchup, Pizza, Xburguer, ViewInput, Password,
+  Container, ValueInput, ViewInput,
 } from './register.styles';
-import api from '../../service/api';
 import { Register3 } from './register.page3';
-import { UserContextProvider } from '../../contexts/costumerContext';
-import { useRegister } from '../../contexts/register';
-import { phoneNumber } from '../../utils/validations';
+import { cpf, phoneNumber } from '../../utils/validations';
+import { AuthProvider } from '../../contexts/auth';
+import { useRegister } from '../../contexts/testeCadastro';
 
-type Props = {
-  navigation:any
-
-}
-
-export function Register2({ navigation } : Props) {
-  const [error, setError] = useState(true)
-  const [check, setCheck] = useState(false)
-  const [loading, setLoading] = useState(false)
-  const { newName, setNewName } = useRegister()
-  const { newCPF, setNewCPF } = useRegister()
-  const { newPhone, setNewPhone } = useRegister()
-
-  const schema = Yup.object({
-    newName: Yup.string().required().email(),
-    newCPF: Yup.string().required().min(4),
-    newPhone: Yup.string().matches(phoneNumber),
+export function Register2() {
+  const navigation = useNavigation()
+  const loginValidationSchema = Yup.object().shape({
+    name: Yup.string().required(),
+    cpf: Yup.string().required().matches(cpf, 'ex: 123.456.789-00'),
+    phone: Yup.string().matches(phoneNumber, 'ex: (DDD) 98765-4321'),
   }).required();
-
-  const { register, handleSubmit, formState: { errors } } = useForm({
-    resolver: yupResolver(schema),
-  });
-
-  const [search, setsearch] = useState()
-
-  const handlePost = () => {
-    console.log(
-      'nome:',
-      newName,
-      'CPF:',
-      newCPF,
-      'telefone:',
-      newPhone,
-    )
-  }
-  // if (newName && newCPF && newPhone) {
-  //   setError(false)
-  // }
+  const { body } = useRegister()
 
   return (
-    <UserContextProvider>
+    <AuthProvider>
+
       <Container style={{ flex: 1 }}>
         <Register2Svg />
-
-        <ViewInput>
-          <Name style={{ position: 'absolute', left: 0, marginHorizontal: 10 }} />
-          {loading
-            ? (
-              <Text style={{ fontSize: 14, marginLeft: 40, color: 'green' }}>
-                Validando
-              </Text>
-            ) : (
-              <ValueInput
-                value={search}
-                autoCompleteType="name"
-                onChangeText={(text:string) => setNewName(text)}
-                placeholder="Nome"
-                keyboardType="default"
-              />
-            )}
-
-        </ViewInput>
-
-        <ViewInput>
-          <CPF style={{ position: 'absolute', left: 0, marginHorizontal: 10 }} />
-          {loading
-            ? (
-              <Text style={{ fontSize: 14, marginLeft: 40, color: 'green' }}>
-                Validando
-              </Text>
-            ) : (
-              <ValueInput
-                value={search}
-                autoCompleteType="cc-number"
-                onChangeText={(text:string) => setNewCPF(text)}
-                placeholder="CPF"
-                keyboardType="number-pad"
-              />
-            )}
-
-        </ViewInput>
-
-        <ViewInput>
-          <Phone style={{ position: 'absolute', left: 0, marginHorizontal: 10 }} />
-          {loading
-            ? (
-              <Text style={{ fontSize: 14, marginLeft: 40, color: 'green' }}>
-                Validando
-              </Text>
-            ) : (
-              <ValueInput
-                value={search}
-                autoCompleteType="cc-number"
-                onChangeText={(text:string) => setNewPhone(text)}
-                placeholder="Telefone"
-                keyboardType="number-pad"
-              />
-            )}
-
-        </ViewInput>
-
-        <View style={{ width: 295, alignItems: 'flex-end' }} />
-        {newName && newCPF && newPhone ? (
-          <ButtonLogin
-            title="Continuar"
-            activeOpacity={0.8}
-            onPress={() => { navigation.navigate(Register3), handlePost() }}
-          />
-        ) : (
-          <View style={{
-            marginTop: 12,
-            borderRadius: 8,
-            borderColor: '#bbb',
-            borderWidth: 1,
-            width: 295,
-            height: 50,
-            alignItems: 'center',
-            justifyContent: 'center',
-
+        <Formik
+          validationSchema={loginValidationSchema}
+          initialValues={{ name: '', cpf: '', phone: '' }}
+          onSubmit={(values) => {
+            body.costumer.firstName = values.name
+            // body.phone = values.phone
+            // body.cpf = values.cpf
           }}
-          >
-            <Text style={{
-              color: 'red',
-              fontSize: 14,
-            }}
-            >
-              Todos os campos são obrigatórios
-            </Text>
-          </View>
 
-        )}
+        >
+          {({
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            values,
+            errors,
+            touched,
+            isValid,
+          }) => (
+            <>
+
+              <ViewInput>
+                <Name style={{ position: 'absolute', left: 0, marginHorizontal: 10 }} />
+                <ValueInput
+                  placeholder="Nome"
+                  onChangeText={handleChange('name')}
+                  onBlur={handleBlur('name')}
+                  value={values.name}
+                  keyboardType="default"
+                />
+
+              </ViewInput>
+              {(errors.name && touched.name)
+                && (
+                <Text style={{
+
+                  fontSize: 10,
+                  color: 'red',
+
+                }}
+                >
+                  {errors.name}
+                </Text>
+                )}
+              <ViewInput>
+                <Phone style={{ position: 'absolute', left: 0, marginHorizontal: 10 }} />
+                <ValueInput
+                  placeholder="Telefone"
+                  onChangeText={handleChange('phone')}
+                  onBlur={handleBlur('phone')}
+                  value={values.phone}
+                  keyboardType="number-pad"
+                />
+
+              </ViewInput>
+              {(errors.phone && touched.phone)
+                && (
+                <Text style={{
+
+                  fontSize: 10,
+                  color: 'red',
+
+                }}
+                >
+                  {errors.phone}
+                </Text>
+                )}
+              <ViewInput>
+                <CPF style={{ position: 'absolute', left: 0, marginHorizontal: 10 }} />
+                <ValueInput
+                  placeholder="CPF"
+                  onChangeText={handleChange('cpf')}
+                  onBlur={handleBlur('cpf')}
+                  value={values.cpf}
+                  keyboardType="number-pad"
+                />
+
+              </ViewInput>
+              {(errors.cpf && touched.cpf)
+                && (
+                <Text style={{
+
+                  fontSize: 10,
+                  color: 'red',
+
+                }}
+                >
+                  {errors.cpf}
+                </Text>
+                )}
+
+              {values.name !== '' && values.phone !== ''
+                ? (
+                  <ButtonLogin
+                    title="Continuar"
+                    activeOpacity={0.8}
+                    style={isValid ? { opacity: 1 } : { opacity: 0.6 }}
+                    disabled={!isValid}
+                    onPress={() => { navigation.navigate('Register3'), handleSubmit() }}
+                  />
+                )
+                : (
+                  <>
+                    <ButtonLogin
+                      style={{ opacity: 0.6 }}
+                      title="Continuar"
+                      activeOpacity={0.8}
+                      disabled
+                      onPress={() => { navigation.navigate('Register3'), handleSubmit(), console.log(body) }}
+                    />
+                    <Text style={{ color: 'red', marginTop: 16 }}>Preencha todos os campos</Text>
+                  </>
+                )}
+            </>
+          )}
+        </Formik>
 
       </Container>
-    </UserContextProvider>
+    </AuthProvider>
   )
 }

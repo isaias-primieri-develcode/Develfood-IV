@@ -8,13 +8,14 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-sequences */
 /* eslint-disable no-unused-expressions */
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import * as yup from 'yup'
 import {
-  Alert, Button, Text, TouchableOpacity, View,
+  Text, TouchableOpacity, View,
 } from 'react-native';
-import * as Yup from 'yup'
-import { ButtonLogin } from '../../components/Buttons/Button/button.component';
-import { Home } from '../Home/home.page';
+import { Formik } from 'formik';
+import { useNavigation } from '@react-navigation/native';
+import { ButtonLogin } from '../../components/Button/button.component';
 import MiniLogo from '../../assets/images/miniLogo.svg'
 import PizzaPng from '../../assets/images/pizza.png'
 import XburguerPng from '../../assets/images/xburguer.png'
@@ -28,11 +29,8 @@ import {
 } from './login.styles';
 import api from '../../service/api';
 import { Register1 } from '../register/register.page1';
-import { Sleep } from '../../utils/sleep';
-import { Routes } from '../../routes/index.routes';
-import * as auth from '../../service/auth';
 import AuthContext, { AuthProvider, useAuth } from '../../contexts/auth';
-import { usePost } from '../../service/post';
+import { Routes } from '../../routes/index.routes';
 
 interface CreateUserRequest {
   email: string
@@ -43,157 +41,145 @@ interface TResponse {
   type: string
 }
 
-type Props = {
-  navigation:any
-
-}
-
-export function Login({ navigation } : Props) {
-  const [error, setError] = useState(false)
+export function Login() {
   const [check, setCheck] = useState(false)
-  const [loading, setLoading] = useState(false)
-  const [email, seEmail] = useState(String)
-  const [password, setPassword] = useState(String)
+  const navigation = useNavigation()
 
   const {
-    authState, setAuthState, signIn, signed,
+    authState,
   } = useAuth();
-  console.log(authState);
+  const loginValidationSchema = yup.object().shape({
+    email: yup
+      .string()
+      .email('Por favor adicione um e-mail')
+      .required('Endereço de e-mail obrigatório'),
+    password: yup
+      .string()
+      .min(6, ({ min }) => `A senha deve ter no minimo ${min} caracteres`)
+      .required('Senha obrigatória'),
 
-  // console.log(signed)
-
-  async function handleSignIn() {
-    signIn()
-  }
-
-  // function verify() {
-  //   if ('@' in ) {
-  //     Alert.alert('certo')
-  //     console.log('ok')
-  //   }
-  // }
-
-  const {
-    data: dataPost,
-    handlerPost,
-    error: errorPost,
-  } = usePost<CreateUserRequest, TResponse>(
-    '/auth',
-    {
-      email: email,
-      password: password,
-    },
-    undefined,
-    (dataReturn) => {
-      setAuthState(dataReturn);
-      console.log('logado com sucesso');
-      navigation.navigate(signIn());
-    },
-  );
-
-  // const handlePost = () => {
-  //   api.post('/auth', {
-  //     email,
-  //     password,
-  //     creationDate: '2022-05-02',
-  //     role: {
-  //       id: 2,
-  //     },
-  //   }).then((request) => {
-  //     console.log(request.status)
-  //     if (request.status === 200) {
-  //       // navigation.navigate(Routes)
-  //       setError(false)
-  //       handleSignIn()
-  //     } else {
-  //       setError(true)
-  //     }
-  //   })
-  // }
+  })
 
   return (
+
     <Container style={{ flex: 1 }}>
       <Pizza source={PizzaPng} />
-
       <Xburguer source={XburguerPng} />
-
       <Ketchup source={KetchupPng} />
-
       <MiniLogo />
+      <Formik
+        validationSchema={loginValidationSchema}
+        initialValues={{ email: '', password: '', password_confirm: '' }}
+        onSubmit={(values) => { }}
+      >
+        {({
+          handleChange,
+          handleBlur,
+          handleSubmit,
+          values,
+          errors,
+          touched,
+          isValid,
+        }) => (
+          <>
 
-      <ViewInput>
-        <Email style={{ position: 'absolute', left: 0, marginHorizontal: 10 }} />
-        {loading ? <Text style={{ fontSize: 14, marginLeft: 40, color: 'green' }}>Validando</Text> : (
-          <ValueInput
-            autoCompleteType="email"
-            onChangeText={(text:string) => seEmail(text)}
-            placeholder="email@example.com"
-            keyboardType="email-address"
-          />
+            <ViewInput>
+              <Email style={{ position: 'absolute', left: 0, marginHorizontal: 10 }} />
+              <ValueInput
+                placeholder="Email Address"
+                onChangeText={handleChange('email')}
+                onBlur={handleBlur('email')}
+                value={values.email}
+                keyboardType="email-address"
+              />
+
+            </ViewInput>
+            {(errors.email && touched.email)
+                  && (
+                  <Text style={{
+
+                    fontSize: 10,
+                    color: 'red',
+
+                  }}
+                  >
+                    {errors.email}
+                  </Text>
+                  )}
+
+            <ViewInput>
+              <Password style={{ alignItems: 'center' }}>
+
+                <PasswordDown />
+              </Password>
+              {check
+                ? (
+                  <HiddenPassword
+                    style={{
+                      position: 'absolute', right: 0, marginHorizontal: 10, backgroundColor: '#55a2', borderRadius: 8,
+                    }}
+                    onPress={() => { setCheck(!check) }}
+                  />
+                )
+                : (
+                  <HiddenPassword
+                    style={{ position: 'absolute', right: 0, marginHorizontal: 10 }}
+                    onPress={() => { setCheck(!check) }}
+                  />
+                )}
+              <ValueInput
+                placeholder="Password"
+                onChangeText={handleChange('password')}
+                onBlur={handleBlur('password')}
+                value={values.password}
+                secureTextEntry={!check}
+              />
+
+            </ViewInput>
+            <View style={{ width: 295, alignItems: 'flex-end' }}>
+              <TouchableOpacity activeOpacity={0.8}>
+                <Text style={{ paddingTop: 12, fontWeight: 'bold', color: '#68484A' }}>
+                  Esqueci minha senha
+                </Text>
+              </TouchableOpacity>
+
+            </View>
+            {(errors.password && touched.password)
+                  && (
+                  <Text style={{
+                    fontSize: 10,
+                    color: 'red',
+                  }}
+                  >
+                    {errors.password}
+                  </Text>
+                  )}
+            {values.password !== '' && values.email !== ''
+              ? (
+                <ButtonLogin
+                  title="Continuar"
+                  activeOpacity={0.8}
+                  style={isValid ? { opacity: 1 } : { opacity: 0.6 }}
+                  disabled={!isValid}
+                  onPress={() => { handleSubmit() }}
+                />
+              )
+              : (
+                <ButtonLogin
+                  style={{ opacity: 0.6 }}
+                  title="Continuar"
+                  activeOpacity={0.8}
+                  disabled
+                  onPress={() => { handleSubmit() }}
+                />
+              )}
+          </>
         )}
-
-      </ViewInput>
-      <Text />
-      <View>
-        {error ? <Text style={{ color: 'red' }}>E-mail ou senha invalidos. Tente novamente!</Text> : null }
-      </View>
-
-      <ViewInput>
-        <Password style={{ alignItems: 'center' }}>
-          <PasswordDown />
-        </Password>
-
-        {check
-          ? (
-            <HiddenPassword
-              style={{
-                position: 'absolute', right: 0, marginHorizontal: 10, backgroundColor: '#55a2', borderRadius: 8,
-              }}
-              onPress={() => { setCheck(!check) }}
-            />
-          )
-          : (
-            <HiddenPassword
-              style={{ position: 'absolute', right: 0, marginHorizontal: 10 }}
-              onPress={() => { setCheck(!check) }}
-            />
-          )}
-
-        {loading ? <Text style={{ fontSize: 14, marginLeft: 40, color: 'green' }}>Validando</Text> : (
-          <ValueInput
-            placeholder="Senha"
-            onChangeText={(text) => setPassword(text)}
-            secureTextEntry={!check}
-
-          />
-
-        )}
-      </ViewInput>
-      <View style={{ width: 295, alignItems: 'flex-end' }}>
-        <TouchableOpacity activeOpacity={0.8}>
-          <Text style={{ paddingTop: 12, fontWeight: 'bold', color: '#68484A' }}>
-            Esqueci minha senha
-          </Text>
-        </TouchableOpacity>
-
-      </View>
-      {loading ? <ButtonLogin activeOpacity={1} title="Processando..." /> : (
-        <ButtonLogin
-          title="Entrar"
-          activeOpacity={0.8}
-          onPress={() => {
-            handlerPost(),
-            setLoading(true),
-            Sleep(4000).then(() => { setError(true), setLoading(false) }),
-            Sleep(9000).then(() => { setError(false) })
-          }}
-        />
-      )}
-
+      </Formik>
       <TouchableOpacity
         activeOpacity={0.8}
         style={{ flexDirection: 'row' }}
-        onPress={() => navigation.navigate(Register1)}
+        onPress={() => navigation.navigate('Register1')}
       >
         <Text style={{ paddingTop: 16, fontWeight: 'bold', color: '#68484A' }}>
           Não possui cadastro?
@@ -206,5 +192,6 @@ export function Login({ navigation } : Props) {
       </TouchableOpacity>
 
     </Container>
+
   )
 }

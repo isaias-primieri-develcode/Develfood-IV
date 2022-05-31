@@ -2,106 +2,95 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-sequences */
 /* eslint-disable no-unused-expressions */
-import React, { useState } from 'react';
+import React from 'react';
 import { Text, View } from 'react-native';
-import { ButtonLogin } from '../../components/Buttons/Button/button.component';
-import { Home } from '../Home/home.page';
-import HiddenPassword from '../../assets/imageIcons/hiddenPassword.svg'
-import Email from '../../assets/imageIcons/email.svg'
-import PasswordDown from '../../assets/imageIcons/password.svg'
+import { useNavigation } from '@react-navigation/native';
+import { ButtonLogin } from '../../components/Button/button.component';
 import RegisterSucessSvg from '../../assets/resgister/registerSucess.svg'
 
 import {
-  Container, ValueInput, ViewInput, TextView, Password, Title,
+  Container, TextView, Title,
 } from './register.styles';
 import api from '../../service/api';
-import { Register2 } from './register.page2';
-import { UserContextProvider } from '../../contexts/costumerContext';
-import { Routes } from '../../routes/index.routes';
+
 import { Login } from '../Login/login.page';
-import { useRegister } from '../../contexts/register';
 
-type Props = {
-  navigation:any
+export function RegisterSucess() {
+  const navigation = useNavigation()
+  // const {
+  //   cep,
+  //   city,
+  //   cpf,
+  //   creationDate,
+  //   district,
+  //   email,
+  //   name,
+  //   nickname,
+  //   number,
+  //   password,
+  //   phone,
+  //   state,
+  //   street,
 
-}
+  // } = useRegister()
 
-export function RegisterSucess({ navigation } : Props) {
-  const [error, setError] = useState(false)
-  const [check, setCheck] = useState(false)
-  const [loading, setLoading] = useState(false)
-  const { newEmail, setNewEmail } = useRegister()
-  const { newPassword, setNewPassword } = useRegister()
-  const { newName, setNewName } = useRegister()
-  const { newCPF, setNewCPF } = useRegister()
-  const { newPhone, setNewPhone } = useRegister()
-  const { newStreet, setNewStreet } = useRegister()
-  const { newCity, setNewCity } = useRegister()
-  const { newDistrict, setNewDistrict } = useRegister()
-  const { newNumber, setNewNumber } = useRegister()
-  const { newCEP, setNewCEP } = useRegister()
+  // const handlePost = async () => {
+  //   try {
+  //     await api.post('/user', {
+  //       email,
+  //       password,
+  //       creationDate,
+  //       role: {
+  //         id: 2,
+  //       },
+  //       costumer: {
+  //         firstName: name,
+  //         lastName: '',
+  //         cpf,
+  //         phone,
+  //         photo: '',
+  //         address: [{
+  //           street,
+  //           number,
+  //           neighborhood: district,
+  //           city,
+  //           zipCode: cep,
+  //           state,
+  //           nickname,
+  //         }],
+  //       },
+  //     }).then((value) => console.log(value))
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
 
-  const handlePost = () => {
-    api.post('/user', {
-      email: newEmail,
-      password: newPassword,
-      creationDate: '2022-05-02',
-      role: {
-        id: 2,
-      },
-      costumer: {
-        firstName: newName,
-        lastName: 'lastName',
-        cpf: newCPF,
-        phone: newPhone,
-        photo: '',
-        address: [{
-          street: newStreet,
-          number: newNumber,
-          neighborhood: newDistrict,
-          city: newCity,
-          zipCode: newCEP,
-          state: 'SP',
-          nickname: 'Casa',
-        }],
-      },
-
-    })
-  }
-
-  const sleep = (time:any) => new Promise((resolve) => {
-    setTimeout(resolve, time)
-  })
   return (
-    <UserContextProvider>
-      <Container style={{ flex: 1 }}>
-        <RegisterSucessSvg />
-        <Title style={{ color: '#111', fontSize: 32, fontWeight: 'bold' }}>
-          Cadastro finalizado!
-        </Title>
-        <TextView>
-          <Text style={{ fontSize: 12, fontWeight: 'bold' }}>
-            Parabéns! Agora você pode aproveitar nossas ofertas e serviços e economizar
-            com super cupons Develfood.
-          </Text>
-        </TextView>
+    <Container style={{ flex: 1 }}>
 
-        <View style={{ width: 295, alignItems: 'flex-end' }} />
-        {loading ? (
-          <ButtonLogin
-            activeOpacity={1}
-            title="Processando..."
-          />
-        ) : (
-          <ButtonLogin
-            title="Concluir"
-            activeOpacity={0.8}
-            onPress={() => { navigation.navigate(Login), handlePost() }}
-          />
-        )}
+      <RegisterSucessSvg />
 
-      </Container>
+      <Title style={{ color: '#111', fontSize: 32, fontWeight: 'bold' }}>
+        Cadastro finalizado!
+      </Title>
 
-    </UserContextProvider>
+      <TextView>
+        <Text style={{ fontSize: 12, fontWeight: 'bold' }}>
+          Parabéns! Agora você pode aproveitar nossas ofertas e serviços e economizar
+          com super cupons Develfood.
+        </Text>
+      </TextView>
+
+      <View style={{ width: 295, alignItems: 'flex-end' }} />
+
+      <ButtonLogin
+        title="Concluir"
+        activeOpacity={0.8}
+          // eslint-disable-next-line max-len
+        onPress={() => { navigation.navigate('Login') }}
+      />
+
+    </Container>
+
   )
 }

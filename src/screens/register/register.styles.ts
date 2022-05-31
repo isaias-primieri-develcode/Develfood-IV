@@ -46,12 +46,40 @@ export const ValueInput = styled.TextInput`
 
 `;
 
+export const ValueMiniInput = styled.TextInput`
+  width: 90px;
+  height: 50px;
+  border-radius: 10px;
+  margin-left: 36px;
+  border-color: #BFBABA;
+  align-items: center;
+  color: #222;
+  justify-content: center;
+
+`;
+
 export const ViewInput = styled.View`
 
   width: 295px;
   height: 50px;
   border-radius: 10px;
   margin-top: 12px;
+  border: 1px;
+  background-color: rgba(255,255,255, 0.7);
+  border-color: #BFBABA;
+  align-items: flex-start;
+  justify-content: center;
+
+`;
+export const ViewMiniInput = styled.View`
+
+  width: 140px;
+  height: 50px;
+  border-radius: 10px;
+  margin-top: 12px;
+  margin-right: 5px;
+  margin-left: 5px;
+
   border: 1px;
   background-color: rgba(255,255,255, 0.7);
   border-color: #BFBABA;

@@ -1,10 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-// import { ScreenStackHeaderConfig } from 'react-native-screens';
-// import Icon from 'react-native-vector-icons/Feather';
 import RNBootSplash from 'react-native-bootsplash'
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Text, View } from 'react-native';
 import HomeIcon from '../assets/icons/home.svg'
 import FavoritesIcon from '../assets/icons/favorites.svg'

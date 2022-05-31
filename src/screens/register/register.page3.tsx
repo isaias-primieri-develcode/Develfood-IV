@@ -1,199 +1,253 @@
 /* eslint-disable no-console */
-/* eslint-disable no-unused-vars */
 /* eslint-disable no-sequences */
 /* eslint-disable no-unused-expressions */
-import React, { useState } from 'react';
-import { Text, View } from 'react-native';
-import { ButtonLogin } from '../../components/Buttons/Button/button.component';
-import { Home } from '../Home/home.page';
+import React from 'react';
+import { ScrollView, Text, View } from 'react-native';
+import * as yup from 'yup'
+import { Formik } from 'formik';
+import { ButtonLogin } from '../../components/Button/button.component';
 import {
-  Container, ValueInput, Ketchup, Pizza, Xburguer, ViewInput, Password,
+  Container, ValueInput, ValueMiniInput, ViewInput, ViewMiniInput,
 } from './register.styles';
-import { RegisterSucess } from './registerSucess.page';
 
 import Location from '../../assets/imageIcons/location.svg'
 import Register3Svg from '../../assets/resgister/register3.svg'
 
-import api from '../../service/api';
-import { UserContextProvider } from '../../contexts/costumerContext';
-import { useRegister } from '../../contexts/register';
+import { AuthProvider } from '../../contexts/auth';
+import { RegisterSucess } from './registerSucess.page';
 
 type Props = { navigation:any }
 
 export function Register3({ navigation } : Props) {
-  const [error, setError] = useState(false)
-  const [check, setCheck] = useState(false)
-  const [loading, setLoading] = useState(false)
-  const { newStreet, setNewStreet } = useRegister()
-  const { newCity, setNewCity } = useRegister()
-  const { newDistrict, setNewDistrict } = useRegister()
-  const { newNumber, setNewNumber } = useRegister()
-  const { newCEP, setNewCEP } = useRegister()
-
-  const [search, setsearch] = useState()
-
-  const handlePost = () => {
-    console.log(
-      'rua:',
-      newStreet,
-      'cidade:',
-      newCity,
-      'bairro:',
-      newDistrict,
-      'numero:',
-      newNumber,
-      'CEP:',
-      newCEP,
-    )
-    const address = {
-      street: newStreet,
-      number: newNumber,
-      neighborhood: newDistrict,
-      city: newCity,
-      zipCode: newCEP,
-      state: 'SP',
-      nickname: 'Casa',
-    }
-  }
-
+  const loginValidationSchema = yup.object().shape({
+    nickname: yup.string().required('campo obrigatorio'),
+    cep: yup.string().required('campo obrigatorio'),
+    street: yup.string().required('campo obrigatorio'),
+    district: yup.string().required('campo obrigatorio'),
+    city: yup.string().required('campo obrigatorio'),
+    state: yup.string().required('campo obrigatorio'),
+    number: yup.string().required('campo obrigatorio'),
+  }).required();
   return (
+    <AuthProvider>
 
-    <UserContextProvider>
-      <Container style={{ flex: 1 }}>
-        <Register3Svg />
+      <ScrollView>
+        <Container style={{ flex: 1 }}>
+          <Register3Svg />
+          <Formik
+            validationSchema={loginValidationSchema}
+            initialValues={{
+              nickname: '', cep: '', street: '', district: '', city: '', state: '', number: '',
+            }}
+            onSubmit={(values) => { console.log(values) }}
+          >
+            {({
+              handleChange,
+              handleBlur,
+              handleSubmit,
+              values,
+              errors,
+              touched,
+              isValid,
+            }) => (
+              <>
+                <View style={{ flexDirection: 'row' }}>
 
-        <ViewInput>
+                  <ViewMiniInput>
+                    <Location style={{ position: 'absolute', left: 0, marginHorizontal: 10 }} />
+                    <ValueMiniInput
+                      placeholder="complemento"
+                      onChangeText={handleChange('nickname')}
+                      onBlur={handleBlur('nickname')}
+                      value={values.nickname}
+                      keyboardType="default"
+                    />
 
-          <Location style={{ position: 'absolute', left: 0, marginHorizontal: 10 }} />
+                  </ViewMiniInput>
+                  {(errors.nickname && touched.nickname)
+          && (
+          <Text style={{
 
-          {loading
-            ? (
-              <Text style={{ fontSize: 14, marginLeft: 40, color: 'green' }}>
-                Validando
-              </Text>
-            ) : (
-              <ValueInput
-                value={search}
-                autoCompleteType="street-address"
-                onChangeText={(text:string) => setNewStreet(text)}
-                placeholder="Rua"
-                keyboardType="default"
-              />
-            )}
-        </ViewInput>
-
-        <ViewInput>
-
-          <Location style={{ position: 'absolute', left: 0, marginHorizontal: 10 }} />
-
-          {loading
-            ? (
-              <Text style={{ fontSize: 14, marginLeft: 40, color: 'green' }}>
-                Validando
-              </Text>
-            ) : (
-              <ValueInput
-                value={search}
-                autoCompleteType="street-address"
-                onChangeText={(text:string) => setNewCity(text)}
-                placeholder="Cidade"
-                keyboardType="default"
-              />
-            )}
-        </ViewInput>
-
-        <ViewInput>
-
-          <Location style={{ position: 'absolute', left: 0, marginHorizontal: 10 }} />
-
-          {loading
-            ? (
-              <Text style={{ fontSize: 14, marginLeft: 40, color: 'green' }}>
-                Validando
-              </Text>
-            ) : (
-              <ValueInput
-                value={search}
-                autoCompleteType="street-address"
-                onChangeText={(text:string) => setNewDistrict(text)}
-                placeholder="Bairro"
-                keyboardType="default"
-              />
-            )}
-        </ViewInput>
-
-        <ViewInput>
-
-          <Location style={{ position: 'absolute', left: 0, marginHorizontal: 10 }} />
-
-          {loading
-            ? (
-              <Text style={{ fontSize: 14, marginLeft: 40, color: 'green' }}>
-                Validando
-              </Text>
-            ) : (
-              <ValueInput
-                value={search}
-                autoCompleteType="street-address"
-                onChangeText={(text:string) => setNewNumber(text)}
-                placeholder="Numero"
-                keyboardType="number-pad"
-              />
-            )}
-        </ViewInput>
-
-        <ViewInput>
-
-          <Location style={{ position: 'absolute', left: 0, marginHorizontal: 10 }} />
-
-          {loading
-            ? (
-              <Text style={{ fontSize: 14, marginLeft: 40, color: 'green' }}>
-                Validando
-              </Text>
-            ) : (
-              <ValueInput
-                value={search}
-                autoCompleteType="street-address"
-                onChangeText={(text:string) => setNewCEP(text)}
-                placeholder="CEP"
-                keyboardType="number-pad"
-              />
-            )}
-        </ViewInput>
-
-        <View style={{ width: 295, alignItems: 'flex-end' }} />
-        {newCEP && newCity && newDistrict && newNumber && newStreet ? (
-          <ButtonLogin
-            title="Continuar"
-            activeOpacity={0.8}
-            onPress={() => { navigation.navigate(RegisterSucess), handlePost() }}
-          />
-        ) : (
-          <View style={{
-            marginTop: 12,
-            borderRadius: 8,
-            borderColor: '#bbb',
-            borderWidth: 1,
-            width: 295,
-            height: 50,
-            alignItems: 'center',
-            justifyContent: 'center',
+            fontSize: 10,
+            color: 'red',
 
           }}
           >
+            {errors.nickname}
+          </Text>
+          )}
+
+                  <ViewMiniInput>
+                    <Location style={{ position: 'absolute', left: 0, marginHorizontal: 10 }} />
+                    <ValueMiniInput
+                      placeholder="CEP"
+                      onChangeText={handleChange('cep')}
+                      onBlur={handleBlur('cep')}
+                      value={values.cep}
+                      keyboardType="default"
+                    />
+
+                  </ViewMiniInput>
+                  {(errors.cep && touched.cep)
+          && (
+          <Text style={{
+
+            fontSize: 10,
+            color: 'red',
+
+          }}
+          >
+            {errors.cep}
+          </Text>
+          )}
+                </View>
+                <ViewInput>
+                  <Location style={{ position: 'absolute', left: 0, marginHorizontal: 10 }} />
+                  <ValueInput
+                    placeholder="Rua"
+                    onChangeText={handleChange('street')}
+                    onBlur={handleBlur('street')}
+                    value={values.street}
+                    keyboardType="default"
+                  />
+
+                </ViewInput>
+                {(errors.street && touched.street)
+          && (
+          <Text style={{
+
+            fontSize: 10,
+            color: 'red',
+
+          }}
+          >
+            {errors.street}
+          </Text>
+          )}
+                <ViewInput>
+                  <Location style={{ position: 'absolute', left: 0, marginHorizontal: 10 }} />
+                  <ValueInput
+                    placeholder="Cidade"
+                    onChangeText={handleChange('city')}
+                    onBlur={handleBlur('city')}
+                    value={values.city}
+                    keyboardType="default"
+                  />
+
+                </ViewInput>
+                {(errors.city && touched.city)
+          && (
+          <Text style={{
+
+            fontSize: 10,
+            color: 'red',
+
+          }}
+          >
+            {errors.city}
+          </Text>
+          )}
+                <ViewInput>
+                  <Location style={{ position: 'absolute', left: 0, marginHorizontal: 10 }} />
+                  <ValueInput
+                    placeholder="Bairro"
+                    onChangeText={handleChange('district')}
+                    onBlur={handleBlur('district')}
+                    value={values.district}
+                    keyboardType="default"
+                  />
+
+                </ViewInput>
+                {(errors.district && touched.district)
+          && (
+          <Text style={{
+
+            fontSize: 10,
+            color: 'red',
+
+          }}
+          >
+            {errors.district}
+          </Text>
+          )}
+                <View style={{ flexDirection: 'row' }}>
+
+                  <ViewMiniInput>
+                    <Location style={{ position: 'absolute', left: 0, marginHorizontal: 10 }} />
+                    <ValueMiniInput
+                      placeholder="Estado"
+                      onChangeText={handleChange('state')}
+                      onBlur={handleBlur('state')}
+                      value={values.state}
+                      keyboardType="default"
+                    />
+
+                  </ViewMiniInput>
+                  {(errors.state && touched.state)
+          && (
+          <Text style={{
+
+            fontSize: 10,
+            color: 'red',
+
+          }}
+          >
+            {errors.state}
+          </Text>
+          )}
+                  <ViewMiniInput>
+                    <Location style={{ position: 'absolute', left: 0, marginHorizontal: 10 }} />
+                    <ValueMiniInput
+                      placeholder="Numero"
+                      onChangeText={handleChange('number')}
+                      onBlur={handleBlur('number')}
+                      value={values.number}
+                      keyboardType="default"
+                    />
+
+                  </ViewMiniInput>
+                  {(errors.number && touched.number)
+          && (
             <Text style={{
+
+              fontSize: 10,
               color: 'red',
-              fontSize: 14,
+
             }}
             >
-              Todos os campos são obrigatórios
+              {errors.number}
             </Text>
-          </View>
+          )}
+                </View>
+                {values.number !== '' && values.cep !== ''
+                  ? (
+                    <ButtonLogin
+                      title="Continuar"
+                      activeOpacity={0.8}
+                      style={isValid ? { opacity: 1 } : { opacity: 0.6 }}
+                      disabled={!isValid}
+                      onPress={() => { navigation.navigate(RegisterSucess), handleSubmit() }}
+                    />
+                  )
+                  : (
+                    <>
+                      <ButtonLogin
+                        style={{ opacity: 0.6 }}
+                        title="Continuar"
+                        activeOpacity={0.8}
+                        disabled
+                        onPress={() => { navigation.navigate(RegisterSucess), handleSubmit() }}
+                      />
+                      <Text style={{ color: 'red', marginTop: 16 }}>Preencha todos os campos</Text>
+                    </>
+                  )}
+              </>
+            )}
+          </Formik>
 
-        )}
+        </Container>
+      </ScrollView>
 
-      </Container>
-    </UserContextProvider>
+    </AuthProvider>
   )
 }
