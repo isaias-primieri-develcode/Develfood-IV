@@ -11,7 +11,7 @@ interface RegisterData {
   body: any;
 }
 export const registerContext = createContext({} as RegisterData);
-export function AuthenticationProvider({ children }: RegisterProps) {
+export function RegisterProvider({ children }: RegisterProps) {
   const body = {
     email: '',
     password: '',

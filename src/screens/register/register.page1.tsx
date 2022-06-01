@@ -1,13 +1,5 @@
-/* eslint-disable brace-style */
-/* eslint-disable block-spacing */
-/* eslint-disable indent */
-/* eslint-disable keyword-spacing */
-/* eslint-disable max-len */
 /* eslint-disable no-console */
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-sequences */
-/* eslint-disable no-unused-expressions */
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import * as yup from 'yup'
 import {
   Text, View,
@@ -23,11 +15,11 @@ import Register1Svg from '../../assets/resgister/register1.svg'
 import {
   Container, ValueInput, ViewInput, Password,
 } from './register.styles';
-import { Register2 } from './register.page2';
-import { AuthProvider } from '../../contexts/auth';
+import { useRegister } from '../../contexts/Register';
 
 export function Register1() {
   const [check, setCheck] = useState(Boolean)
+  const { body } = useRegister()
   const navigation = useNavigation()
   const loginValidationSchema = yup.object().shape({
     email: yup
@@ -47,80 +39,98 @@ export function Register1() {
   })
 
   return (
-    <Container style={{ flex: 1, height: '100%', justifyContent: 'flex-start' }}>
+    <Container style={{
+      flex: 1,
+      height: '100%',
+      justifyContent: 'flex-start',
+    }}
+    >
       <View style={{ height: 30 }} />
       <Register1Svg />
       <Formik
         validationSchema={loginValidationSchema}
-        initialValues={{ email: '', password: '', password_confirm: '' }}
+        initialValues={{
+          email: '',
+          password: '',
+          password_confirm: '',
+        }}
         onSubmit={(values) => {
-}}
+          body.email = values.email
+          body.password = values.password
+          console.log(body)
+        }}
       >
         {({
-            handleChange,
-            handleBlur,
-            handleSubmit,
-            values,
-            errors,
-            touched,
-            isValid,
-          }) => (
-            <>
-
-              <ViewInput>
-                <Email style={{ position: 'absolute', left: 0, marginHorizontal: 10 }} />
-                <ValueInput
-                  placeholder="Email Address"
-                  onChangeText={handleChange('email')}
-                  onBlur={handleBlur('email')}
-                  value={values.email}
-                  keyboardType="email-address"
-                />
-
-              </ViewInput>
-              {(errors.email && touched.email)
+          handleChange,
+          handleBlur,
+          handleSubmit,
+          values,
+          errors,
+          touched,
+          isValid,
+        }) => (
+          <>
+            <ViewInput>
+              <Email style={{
+                position: 'absolute',
+                left: 0,
+                marginHorizontal: 10,
+              }}
+              />
+              <ValueInput
+                placeholder="Email Address"
+                onChangeText={handleChange('email')}
+                onBlur={handleBlur('email')}
+                value={values.email}
+                keyboardType="email-address"
+              />
+            </ViewInput>
+            {(errors.email && touched.email)
                   && (
                   <Text style={{
-
                     fontSize: 10,
                     color: 'red',
-
                   }}
                   >
                     {errors.email}
                   </Text>
                   )}
-
-              <ViewInput>
-                <Password style={{ alignItems: 'center' }}>
-
-                  <PasswordDown />
-                </Password>
-                {check
-                  ? (
-                    <HiddenPassword
-                      style={{
-                    position: 'absolute', right: 0, marginHorizontal: 10, backgroundColor: '#55a2', borderRadius: 8,
-                  }}
-                      onPress={() => { setCheck(!check) }}
-                    />
-                  )
-                  : (
-                    <HiddenPassword
-                      style={{ position: 'absolute', right: 0, marginHorizontal: 10 }}
-                      onPress={() => { setCheck(!check) }}
-                    />
-                  )}
-                <ValueInput
-                  placeholder="Password"
-                  onChangeText={handleChange('password')}
-                  onBlur={handleBlur('password')}
-                  value={values.password}
-                  secureTextEntry={!check}
-                />
-
-              </ViewInput>
-              {(errors.password && touched.password)
+            <ViewInput>
+              <Password style={{ alignItems: 'center' }}>
+                <PasswordDown />
+              </Password>
+              {check
+                ? (
+                  <HiddenPassword
+                    style={{
+                      position: 'absolute',
+                      right: 0,
+                      marginHorizontal: 10,
+                      backgroundColor: '#55a2',
+                      borderRadius: 8,
+                    }}
+                    onPress={() => { setCheck(!check) }}
+                  />
+                )
+                : (
+                  <HiddenPassword
+                    style={{
+                      position: 'absolute',
+                      right: 0,
+                      marginHorizontal: 10,
+                    }}
+                    onPress={() => { setCheck(!check) }}
+                  />
+                )}
+              <ValueInput
+                placeholder="Password"
+                onChangeText={handleChange('password')}
+                onBlur={handleBlur('password')}
+                value={values.password}
+                secureTextEntry={!check}
+              />
+            </ViewInput>
+            {(errors.password && touched.password)
                   && (
                   <Text style={{
                     fontSize: 10,
@@ -130,45 +140,48 @@ export function Register1() {
                     {errors.password}
                   </Text>
                   )}
-              <ViewInput>
-                <Password style={{ alignItems: 'center' }}>
-                  <PasswordDown />
-                </Password>
-
-                <ValueInput
-                  onChangeText={handleChange('password_confirm')}
-                  onBlur={handleBlur('password_confirm')}
-                  value={values.password_confirm}
-                  secureTextEntry={!check}
-                  placeholder="Confirmar Senha"
+            <ViewInput>
+              <Password style={{ alignItems: 'center' }}>
+                <PasswordDown />
+              </Password>
+              <ValueInput
+                onChangeText={handleChange('password_confirm')}
+                onBlur={handleBlur('password_confirm')}
+                value={values.password_confirm}
+                secureTextEntry={!check}
+                placeholder="Confirmar Senha"
+              />
+            </ViewInput>
+            {values.password !== '' && values.email !== ''
+              ? (
+                <ButtonLogin
+                  title="Continuar"
+                  activeOpacity={0.8}
+                  style={isValid ? { opacity: 1 } : { opacity: 0.6 }}
+                  disabled={!isValid}
+                  onPress={() => {
+                    navigation.navigate('Register2')
+                    handleSubmit()
+                  }}
                 />
-              </ViewInput>
-              {values.password !== '' && values.email !== ''
-                ? (
+              )
+              : (
+                <>
                   <ButtonLogin
+                    style={{ opacity: 0.6 }}
                     title="Continuar"
                     activeOpacity={0.8}
-                    style={isValid ? { opacity: 1 } : { opacity: 0.6 }}
-                    disabled={!isValid}
-                    onPress={() => { navigation.navigate('Register2'), handleSubmit() }}
+                    disabled
                   />
-                )
-                : (
-                  <>
-                    <ButtonLogin
-                      style={{ opacity: 0.6 }}
-                      title="Continuar"
-                      activeOpacity={0.8}
-                      disabled
-                      onPress={() => { navigation.navigate('Register2'), handleSubmit() }}
-                    />
-                    <Text style={{ color: 'red', marginTop: 16 }}>Preencha todos os campos</Text>
-                  </>
-                )}
-            </>
-          )}
-      </Formik>
+                  <Text style={{ color: 'red', marginTop: 16 }}>
+                    Preencha todos os campos
 
+                  </Text>
+                </>
+              )}
+          </>
+        )}
+      </Formik>
     </Container>
   )
 }

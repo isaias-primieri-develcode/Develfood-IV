@@ -1,16 +1,8 @@
-/* eslint-disable no-const-assign */
-/* eslint-disable no-constant-condition */
-/* eslint-disable eqeqeq */
-/* eslint-disable yoda */
-/* eslint-disable no-cond-assign */
-/* eslint-disable object-shorthand */
 /* eslint-disable no-console */
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-sequences */
-/* eslint-disable no-unused-expressions */
 import React, { useState } from 'react';
 import * as yup from 'yup'
 import {
+  Alert,
   Text, TouchableOpacity, View,
 } from 'react-native';
 import { Formik } from 'formik';
@@ -28,26 +20,19 @@ import {
   Container, ValueInput, Ketchup, Pizza, Xburguer, ViewInput, Password,
 } from './login.styles';
 import api from '../../service/api';
-import { Register1 } from '../register/register.page1';
-import AuthContext, { AuthProvider, useAuth } from '../../contexts/auth';
-import { Routes } from '../../routes/index.routes';
+import { useAuth } from '../../contexts/auth';
 
-interface CreateUserRequest {
-  email: string
-  password: string
-}
-interface TResponse {
-  token: string
-  type: string
+export interface IUsuario {
+  email: string;
+  password: string;
+  id: number
 }
 
 export function Login() {
   const [check, setCheck] = useState(false)
   const navigation = useNavigation()
+  const { setSigned, signed, setAuthState } = useAuth();
 
-  const {
-    authState,
-  } = useAuth();
   const loginValidationSchema = yup.object().shape({
     email: yup
       .string()
@@ -59,9 +44,25 @@ export function Login() {
       .required('Senha obrigatória'),
 
   })
+  const login = async (data: IUsuario) => {
+    try {
+      const response = await api.post('https://develfood-3.herokuapp.com/auth', data);
+      if (response.status === 200) {
+        console.log('sim')
+        setSigned(true);
+        console.log(signed)
+        setAuthState(response.data);
+        console.log(response.data)
+      } else {
+        console.log('nao')
+        console.log(response.status)
+      }
+    } catch (error) {
+      Alert.alert('Usuário não encontrado!');
+    }
+  };
 
   return (
-
     <Container style={{ flex: 1 }}>
       <Pizza source={PizzaPng} />
       <Xburguer source={XburguerPng} />
@@ -69,8 +70,15 @@ export function Login() {
       <MiniLogo />
       <Formik
         validationSchema={loginValidationSchema}
-        initialValues={{ email: '', password: '', password_confirm: '' }}
-        onSubmit={(values) => { }}
+        initialValues={{ email: '', password: '' }}
+        onSubmit={(values) => {
+          console.log(values)
+          login({
+            email: values.email,
+            password: values.password,
+            id: 1,
+          })
+        }}
       >
         {({
           handleChange,

@@ -1,9 +1,6 @@
 /* eslint-disable no-console */
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-sequences */
-/* eslint-disable no-unused-expressions */
-import React from 'react';
-import { Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { Alert, Text, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { ButtonLogin } from '../../components/Button/button.component';
 import RegisterSucessSvg from '../../assets/resgister/registerSucess.svg'
@@ -13,57 +10,25 @@ import {
 } from './register.styles';
 import api from '../../service/api';
 
-import { Login } from '../Login/login.page';
+import { useRegister } from '../../contexts/Register';
 
 export function RegisterSucess() {
+  const { body } = useRegister()
   const navigation = useNavigation()
-  // const {
-  //   cep,
-  //   city,
-  //   cpf,
-  //   creationDate,
-  //   district,
-  //   email,
-  //   name,
-  //   nickname,
-  //   number,
-  //   password,
-  //   phone,
-  //   state,
-  //   street,
+  const [status, setStatus] = useState('')
 
-  // } = useRegister()
-
-  // const handlePost = async () => {
-  //   try {
-  //     await api.post('/user', {
-  //       email,
-  //       password,
-  //       creationDate,
-  //       role: {
-  //         id: 2,
-  //       },
-  //       costumer: {
-  //         firstName: name,
-  //         lastName: '',
-  //         cpf,
-  //         phone,
-  //         photo: '',
-  //         address: [{
-  //           street,
-  //           number,
-  //           neighborhood: district,
-  //           city,
-  //           zipCode: cep,
-  //           state,
-  //           nickname,
-  //         }],
-  //       },
-  //     }).then((value) => console.log(value))
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // }
+  function HandlePost() {
+    api.post('https://develfood-3.herokuapp.com/user', body).then((data) => {
+      setStatus(data.statusText)
+      console.log(data.statusText)
+    })
+  }
+  function HandleConfirm() {
+    if (status === '201') { navigation.navigate('Login') } else {
+      navigation.navigate('Login')
+      Alert.alert('conta ja existente')
+    }
+  }
 
   return (
     <Container style={{ flex: 1 }}>
@@ -86,8 +51,10 @@ export function RegisterSucess() {
       <ButtonLogin
         title="Concluir"
         activeOpacity={0.8}
-          // eslint-disable-next-line max-len
-        onPress={() => { navigation.navigate('Login') }}
+        onPress={() => {
+          HandlePost()
+          HandleConfirm()
+        }}
       />
 
     </Container>

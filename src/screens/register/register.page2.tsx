@@ -1,8 +1,4 @@
-/* eslint-disable max-len */
 /* eslint-disable no-console */
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-sequences */
-/* eslint-disable no-unused-expressions */
 import React from 'react';
 import { Text } from 'react-native';
 import * as Yup from 'yup'
@@ -18,10 +14,9 @@ import Register2Svg from '../../assets/resgister/register2.svg'
 import {
   Container, ValueInput, ViewInput,
 } from './register.styles';
-import { Register3 } from './register.page3';
 import { cpf, phoneNumber } from '../../utils/validations';
 import { AuthProvider } from '../../contexts/auth';
-import { useRegister } from '../../contexts/testeCadastro';
+import { useRegister } from '../../contexts/Register';
 
 export function Register2() {
   const navigation = useNavigation()
@@ -42,10 +37,10 @@ export function Register2() {
           initialValues={{ name: '', cpf: '', phone: '' }}
           onSubmit={(values) => {
             body.costumer.firstName = values.name
-            // body.phone = values.phone
-            // body.cpf = values.cpf
+            body.costumer.cpf = values.cpf
+            body.costumer.phone = values.phone
+            console.log(body)
           }}
-
         >
           {({
             handleChange,
@@ -57,9 +52,13 @@ export function Register2() {
             isValid,
           }) => (
             <>
-
               <ViewInput>
-                <Name style={{ position: 'absolute', left: 0, marginHorizontal: 10 }} />
+                <Name style={{
+                  position: 'absolute',
+                  left: 0,
+                  marginHorizontal: 10,
+                }}
+                />
                 <ValueInput
                   placeholder="Nome"
                   onChangeText={handleChange('name')}
@@ -72,17 +71,21 @@ export function Register2() {
               {(errors.name && touched.name)
                 && (
                 <Text style={{
-
                   fontSize: 10,
                   color: 'red',
-
                 }}
                 >
                   {errors.name}
                 </Text>
                 )}
+
               <ViewInput>
-                <Phone style={{ position: 'absolute', left: 0, marginHorizontal: 10 }} />
+                <Phone style={{
+                  position: 'absolute',
+                  left: 0,
+                  marginHorizontal: 10,
+                }}
+                />
                 <ValueInput
                   placeholder="Telefone"
                   onChangeText={handleChange('phone')}
@@ -90,22 +93,25 @@ export function Register2() {
                   value={values.phone}
                   keyboardType="number-pad"
                 />
-
               </ViewInput>
               {(errors.phone && touched.phone)
                 && (
                 <Text style={{
-
                   fontSize: 10,
                   color: 'red',
-
                 }}
                 >
                   {errors.phone}
                 </Text>
                 )}
+
               <ViewInput>
-                <CPF style={{ position: 'absolute', left: 0, marginHorizontal: 10 }} />
+                <CPF style={{
+                  position: 'absolute',
+                  left: 0,
+                  marginHorizontal: 10,
+                }}
+                />
                 <ValueInput
                   placeholder="CPF"
                   onChangeText={handleChange('cpf')}
@@ -118,10 +124,8 @@ export function Register2() {
               {(errors.cpf && touched.cpf)
                 && (
                 <Text style={{
-
                   fontSize: 10,
                   color: 'red',
-
                 }}
                 >
                   {errors.cpf}
@@ -135,7 +139,10 @@ export function Register2() {
                     activeOpacity={0.8}
                     style={isValid ? { opacity: 1 } : { opacity: 0.6 }}
                     disabled={!isValid}
-                    onPress={() => { navigation.navigate('Register3'), handleSubmit() }}
+                    onPress={() => {
+                      navigation.navigate('Register3')
+                      handleSubmit()
+                    }}
                   />
                 )
                 : (
@@ -145,9 +152,11 @@ export function Register2() {
                       title="Continuar"
                       activeOpacity={0.8}
                       disabled
-                      onPress={() => { navigation.navigate('Register3'), handleSubmit(), console.log(body) }}
                     />
-                    <Text style={{ color: 'red', marginTop: 16 }}>Preencha todos os campos</Text>
+                    <Text style={{ color: 'red', marginTop: 16 }}>
+                      Preencha todos os campos
+
+                    </Text>
                   </>
                 )}
             </>

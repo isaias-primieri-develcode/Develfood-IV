@@ -1,9 +1,6 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-unused-expressions */
-/* eslint-disable react/jsx-no-constructed-context-values */
 /* eslint-disable react/self-closing-comp */
-import React, { useContext, useState } from 'react';
-import { Button, Text, TouchableOpacity } from 'react-native';
+import React, { useContext } from 'react';
+import { Button } from 'react-native';
 import AuthContext from '../../contexts/auth';
 
 import {
@@ -11,7 +8,7 @@ import {
 } from './profile.styles';
 
 export function Profile() {
-  const { logOut } = useContext(AuthContext)
+  const { setSigned } = useContext(AuthContext)
 
   return (
 
@@ -20,7 +17,7 @@ export function Profile() {
       <Title>
         Profile
       </Title>
-      <Button title="deslogar" onPress={() => { logOut() }} />
+      <Button title="deslogar" onPress={() => { setSigned(false) }} />
 
     </Container>
   )

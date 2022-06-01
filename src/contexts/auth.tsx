@@ -13,6 +13,8 @@ interface AuthContextData{
   logOut() : void
   authState: PropContext
   setAuthState: React.Dispatch<React.SetStateAction<PropContext>>
+  setSigned: React.Dispatch<React.SetStateAction<boolean>>
+
 }
 interface PropContext {
   token: string
@@ -23,6 +25,7 @@ const AuthContext = createContext<AuthContextData>({} as AuthContextData)
 export const AuthProvider: React.FC = ({ children }) => {
   const [user, setUser] = useState<object | null>(null)
   const [authState, setAuthState] = useState({} as PropContext)
+  const [signed, setSigned] = useState(false)
 
   useEffect(() => {
     async function LoadedStoragedData() {
@@ -49,7 +52,7 @@ export const AuthProvider: React.FC = ({ children }) => {
   // }
   return (
     <AuthContext.Provider value={{
-      signed: !!user, user, logOut, authState, setAuthState,
+      signed, setSigned, user, logOut, authState, setAuthState,
     }}
     >
       {children}
