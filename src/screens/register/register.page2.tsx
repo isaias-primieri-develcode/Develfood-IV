@@ -91,7 +91,7 @@ export function Register2() {
                   onChangeText={handleChange('phone')}
                   onBlur={handleBlur('phone')}
                   value={values.phone}
-                  keyboardType="number-pad"
+                  keyboardType="phone-pad"
                 />
               </ViewInput>
               {(errors.phone && touched.phone)

@@ -8,7 +8,7 @@ import {
 } from './profile.styles';
 
 export function Profile() {
-  const { setSigned } = useContext(AuthContext)
+  const { setSigned, logOut } = useContext(AuthContext)
 
   return (
 
@@ -17,7 +17,13 @@ export function Profile() {
       <Title>
         Profile
       </Title>
-      <Button title="deslogar" onPress={() => { setSigned(false) }} />
+      <Button
+        title="deslogar"
+        onPress={() => {
+          setSigned(false)
+          logOut()
+        }}
+      />
 
     </Container>
   )

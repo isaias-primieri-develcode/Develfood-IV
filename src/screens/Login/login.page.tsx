@@ -31,7 +31,9 @@ export interface IUsuario {
 export function Login() {
   const [check, setCheck] = useState(false)
   const navigation = useNavigation()
-  const { setSigned, signed, setAuthState } = useAuth();
+  const {
+    setSigned, signed, setAuthState, setUser,
+  } = useAuth();
 
   const loginValidationSchema = yup.object().shape({
     email: yup
@@ -47,12 +49,17 @@ export function Login() {
   const login = async (data: IUsuario) => {
     try {
       const response = await api.post('https://develfood-3.herokuapp.com/auth', data);
+      const user = {
+        token: response.data.token,
+        email: data.email,
+        password: data.password,
+      }
       if (response.status === 200) {
         console.log('sim')
         setSigned(true);
         console.log(signed)
         setAuthState(response.data);
-        console.log(response.data)
+        setUser(user)
       } else {
         console.log('nao')
         console.log(response.status)

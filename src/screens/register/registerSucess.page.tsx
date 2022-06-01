@@ -24,7 +24,8 @@ export function RegisterSucess() {
     })
   }
   function HandleConfirm() {
-    if (status === '201') { navigation.navigate('Login') } else {
+    if (status === '200') { navigation.navigate('Login') }
+    if (status === '409') {
       navigation.navigate('Login')
       Alert.alert('conta ja existente')
     }
