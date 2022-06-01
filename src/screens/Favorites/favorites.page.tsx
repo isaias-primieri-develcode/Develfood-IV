@@ -1,36 +1,26 @@
+/* eslint-disable no-console */
 /* eslint-disable no-unused-vars */
-import React, { useContext } from 'react';
-import { Button, Text } from 'react-native';
-import { TabNavigation } from '../../components/Buttons/Routes/TabNavigation/tabNavigation';
-import { UserContext, UserContextProvider } from '../../contexts/costumerContext';
+import React from 'react';
+import { Button } from 'react-native';
+import { useAuth } from '../../contexts/auth';
 
 import {
   Container, Title,
 } from './favorites.styles';
 
-type Props = {
-  navigation:any
-}
-
-export function Favorites({ navigation } : Props) {
-  // eslint-disable-next-line no-unused-vars
-  const { isOpenModal, setIsOpenModal } = useContext(UserContext)
+export function Favorites() {
+  const { authState } = useAuth()
 
   return (
-    <UserContextProvider>
 
-      <Container style={{ flex: 1 }}>
-        <Button title="add" onPress={() => setIsOpenModal(!isOpenModal)} />
+    <Container style={{ flex: 1 }}>
+      <Button title="add" onPress={() => console.log(authState)} />
 
-        <Title>
+      <Title>
 
-          Favorites
-        </Title>
-        <Title>
-          {isOpenModal ? <Text>ola</Text> : <Text>tchau</Text>}
-        </Title>
+        Favorites
+      </Title>
 
-      </Container>
-    </UserContextProvider>
+    </Container>
   )
 }

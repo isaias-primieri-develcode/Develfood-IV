@@ -1,7 +1,5 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect } from 'react';
-// import { ScreenStackHeaderConfig } from 'react-native-screens';
-// import Icon from 'react-native-vector-icons/Feather';
 import RNBootSplash from 'react-native-bootsplash'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Login } from '../screens/Login/login.page';
@@ -49,6 +47,7 @@ export function LoginRoutes() {
         name="Routes"
         component={Routes}
       />
+
     </Stack.Navigator>
   );
 }
