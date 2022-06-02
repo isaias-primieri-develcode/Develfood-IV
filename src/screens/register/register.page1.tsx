@@ -57,7 +57,6 @@ export function Register1() {
         onSubmit={(values) => {
           body.email = values.email
           body.password = values.password
-          console.log(body)
         }}
       >
         {({

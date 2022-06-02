@@ -6,7 +6,6 @@ import React, {
 interface RegisterProps {
   children: ReactNode;
 }
-
 interface RegisterData {
   body: any;
 }
@@ -34,17 +33,17 @@ export function RegisterProvider({ children }: RegisterProps) {
           zipCode: '',
           state: '',
           nickname: '',
-        },
-      ],
+        }],
     },
-
   };
+
   return (
     <registerContext.Provider value={{ body }}>
       {children}
     </registerContext.Provider>
   );
 }
+
 export function useRegister() {
   const context = useContext(registerContext);
   return context;

@@ -1,6 +1,8 @@
 /* eslint-disable no-console */
 import React from 'react';
-import { ScrollView, Text, View } from 'react-native';
+import {
+  Alert, ScrollView, Text, View,
+} from 'react-native';
 import * as yup from 'yup'
 import { Formik } from 'formik';
 import { useNavigation } from '@react-navigation/native';
@@ -14,10 +16,12 @@ import Register3Svg from '../../assets/resgister/register3.svg'
 
 import { AuthProvider } from '../../contexts/auth';
 import { useRegister } from '../../contexts/Register';
+import api from '../../service/api';
 
 export function Register3() {
   const { body } = useRegister()
   const navigation = useNavigation()
+
   const loginValidationSchema = yup.object().shape({
     nickname: yup
       .string()
@@ -58,7 +62,7 @@ export function Register3() {
               state: '',
               number: '',
             }}
-            onSubmit={(values) => {
+            onSubmit={async (values) => {
               body.costumer.address.nickname = values.nickname
               body.costumer.address.zipCode = values.cep
               body.costumer.address.street = values.street
@@ -66,8 +70,17 @@ export function Register3() {
               body.costumer.address.state = values.state
               body.costumer.address.number = values.number
               body.costumer.address.neighborhood = values.district
+              try {
+                await api.post('/user', body).then((data) => {
+                })
+                navigation.navigate('RegisterSucess')
+              } catch (erro) {
+                console.log('erro:', erro)
+                Alert.alert('erro no cadastro')
+                navigation.navigate('Login')
+              }
 
-              console.log(body)
+              console.log('body:', body)
             }}
           >
             {({
@@ -291,7 +304,6 @@ export function Register3() {
                       style={isValid ? { opacity: 1 } : { opacity: 0.6 }}
                       disabled={!isValid}
                       onPress={() => {
-                        navigation.navigate('RegisterSucess')
                         handleSubmit()
                       }}
                     />

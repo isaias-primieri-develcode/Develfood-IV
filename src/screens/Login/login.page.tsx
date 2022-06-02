@@ -48,7 +48,7 @@ export function Login() {
   })
   const login = async (data: IUsuario) => {
     try {
-      const response = await api.post('https://develfood-3.herokuapp.com/auth', data);
+      const response = await api.post('/auth', data);
       const user = {
         token: response.data.token,
         email: data.email,

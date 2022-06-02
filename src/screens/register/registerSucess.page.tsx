@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
-import React, { useState } from 'react';
-import { Alert, Text, View } from 'react-native';
+import React from 'react';
+import { Text, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { ButtonLogin } from '../../components/Button/button.component';
 import RegisterSucessSvg from '../../assets/resgister/registerSucess.svg'
@@ -8,28 +8,9 @@ import RegisterSucessSvg from '../../assets/resgister/registerSucess.svg'
 import {
   Container, TextView, Title,
 } from './register.styles';
-import api from '../../service/api';
-
-import { useRegister } from '../../contexts/Register';
 
 export function RegisterSucess() {
-  const { body } = useRegister()
   const navigation = useNavigation()
-  const [status, setStatus] = useState('')
-
-  function HandlePost() {
-    api.post('https://develfood-3.herokuapp.com/user', body).then((data) => {
-      setStatus(data.statusText)
-      console.log(data.statusText)
-    })
-  }
-  function HandleConfirm() {
-    if (status === '200') { navigation.navigate('Login') }
-    if (status === '409') {
-      navigation.navigate('Login')
-      Alert.alert('conta ja existente')
-    }
-  }
 
   return (
     <Container style={{ flex: 1 }}>
@@ -53,8 +34,7 @@ export function RegisterSucess() {
         title="Concluir"
         activeOpacity={0.8}
         onPress={() => {
-          HandlePost()
-          HandleConfirm()
+          navigation.navigate('Login')
         }}
       />
 

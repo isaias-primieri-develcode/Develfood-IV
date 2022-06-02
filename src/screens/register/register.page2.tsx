@@ -39,7 +39,6 @@ export function Register2() {
             body.costumer.firstName = values.name
             body.costumer.cpf = values.cpf
             body.costumer.phone = values.phone
-            console.log(body)
           }}
         >
           {({
