@@ -23,7 +23,9 @@ export function RegisterProvider({ children }: RegisterProps) {
       lastName: '',
       cpf: '',
       phone: '',
-      photo: '',
+      photo: {
+        code: '',
+      },
       address: [
         {
           street: '',

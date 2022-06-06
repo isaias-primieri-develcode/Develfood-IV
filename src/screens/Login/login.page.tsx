@@ -56,10 +56,11 @@ export function Login() {
       }
       if (response.status === 200) {
         console.log('sim')
-        setSigned(true);
         console.log(signed)
         setAuthState(response.data);
+        console.log(response.data)
         setUser(user)
+        setSigned(true);
       } else {
         console.log('nao')
         console.log(response.status)
@@ -75,6 +76,7 @@ export function Login() {
       <Xburguer source={XburguerPng} />
       <Ketchup source={KetchupPng} />
       <MiniLogo />
+
       <Formik
         validationSchema={loginValidationSchema}
         initialValues={{ email: '', password: '' }}

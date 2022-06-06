@@ -71,8 +71,7 @@ export function Register3() {
               body.costumer.address.number = values.number
               body.costumer.address.neighborhood = values.district
               try {
-                await api.post('/user', body).then((data) => {
-                })
+                await api.post('/user', body)
                 navigation.navigate('RegisterSucess')
               } catch (erro) {
                 console.log('erro:', erro)
