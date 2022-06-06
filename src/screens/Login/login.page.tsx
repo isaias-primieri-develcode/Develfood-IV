@@ -108,6 +108,7 @@ export function Login() {
                 onBlur={handleBlur('email')}
                 value={values.email}
                 keyboardType="email-address"
+                defaultValue="a@a."
               />
 
             </ViewInput>
@@ -148,6 +149,7 @@ export function Login() {
                 placeholder="Password"
                 onChangeText={handleChange('password')}
                 onBlur={handleBlur('password')}
+                defaultValue="123456"
                 value={values.password}
                 secureTextEntry={!check}
               />

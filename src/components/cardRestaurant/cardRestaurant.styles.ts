@@ -1,17 +1,20 @@
 import { RFValue } from 'react-native-responsive-fontsize'
 import styled from 'styled-components/native'
-import { theme } from '../../global/theme'
+import colors from '../../global/theme'
 
 export const Container = styled.View`
   width: ${RFValue(156)}px;
   height: ${RFValue(173)}px;
+  margin-left: ${RFValue(35)}px;
+  margin-top: ${RFValue(18)}px;
+
   border-radius: 8px;
 `
 export const ViewFavorite = styled.View`
   width: ${RFValue(42)}px;
   height: ${RFValue(42)}px;
   border: ${RFValue(1)}px;
-  background-color: ${theme.colors.background};
+  background-color: ${colors.colors.background};
   border-bottom-left-radius: 16px;
   border-top-right-radius: 8px;
   border-color: #bfbaba;
@@ -48,7 +51,7 @@ export const TextInfo = styled.Text`
   font-size: ${RFValue(12)}px;
   font-weight: ${RFValue(16)}px;
   font-weight: 500;
-  color: ${theme.colors.text_dark};
+  color: ${colors.colors.text_dark};
 `
 
 export const TextCategories = styled.Text`
@@ -58,7 +61,7 @@ export const TextCategories = styled.Text`
   font-size: ${RFValue(12)}px;
   font-weight: ${RFValue(16)}px;
   font-weight: 400;
-  color: ${theme.colors.text_gray};
+  color: ${colors.colors.text_gray};
 `
 export const RateContainer = styled.View`
   flex-direction: row;
@@ -68,7 +71,7 @@ export const RateContainer = styled.View`
   align-items: center;
 `
 export const TextRate = styled.Text`
-  color: ${theme.colors.icon_red};
+  color: ${colors.colors.icon_red};
   margin-left: ${RFValue(5)}px;
   font-weight: 400;
 `

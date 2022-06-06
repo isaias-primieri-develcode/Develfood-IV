@@ -14,10 +14,11 @@ import Carousel from '../../assets/homeImages/Carousel.png'
 import { CardRestaurant } from '../../components/cardRestaurant/cardRestaurant.component';
 import { Categories } from '../../components/categories/categories.component';
 import { Header } from '../../components/Headers/header.component';
+import { SearchRestaurants } from '../../components/SearchRestaurants/searchRestaurants.component';
 import { useAuth } from '../../contexts/auth';
 import api from '../../service/api';
 
-import { Container } from './home.styles';
+import { CarouselImg, Container, RestaurantList } from './home.styles';
 
 interface Data{
   name: string
@@ -78,20 +79,25 @@ export function Home() {
 
   return (
 
-    <Container style={{ flex: 1 }}>
+    <Container>
       <StatusBar barStyle="dark-content" backgroundColor="#c20c18" />
 
-      <Header color="#c20c18" name="Home" />
-      <Image source={Carousel} style={{ marginTop: 60, width: '100%' }} />
-      <Categories />
+      {/* <View style={{ alignItems: 'center' }}> */}
 
-      <FlatList
-        style={{ height: 206, width: '100%' }}
+      <RestaurantList
         data={data}
         keyExtractor={(item: any) => item.id}
+        ListHeaderComponent={(
+          <>
+            <Header color="#c20c18" name="Home" />
+            <CarouselImg source={Carousel} />
+            <Categories />
+            <SearchRestaurants />
+          </>
+        )}
         numColumns={2}
         renderItem={({ item }: any) => (
-          <View style={{ flexDirection: 'row' }}>
+          <View>
             <CardRestaurant
               name={item.name}
               category="pizza"
@@ -102,6 +108,7 @@ export function Home() {
         )}
         onEndReached={() => handleLoadOnEnd()}
       />
+      {/* </View> */}
     </Container>
   )
 }
