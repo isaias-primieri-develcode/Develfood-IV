@@ -24,7 +24,7 @@ export function CardRestaurant({ name, category, rate } : Props) {
   return (
     <Container>
       <ImageRestaurant
-        source={require('../../assets/homeImages/restaurant.png')}
+        source={require('../../assets/images/default.png')}
       />
       <ViewFavorite>
         <ImageFavorite

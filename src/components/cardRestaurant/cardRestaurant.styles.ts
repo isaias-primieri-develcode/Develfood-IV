@@ -5,7 +5,7 @@ import colors from '../../global/theme'
 export const Container = styled.View`
   width: ${RFValue(156)}px;
   height: ${RFValue(173)}px;
-  margin-left: ${RFValue(35)}px;
+
   margin-top: ${RFValue(18)}px;
 
   border-radius: 8px;

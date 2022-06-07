@@ -200,11 +200,17 @@ export function Login() {
         style={{ flexDirection: 'row' }}
         onPress={() => navigation.navigate('Register1')}
       >
-        <Text style={{ paddingTop: 16, fontWeight: 'bold', color: '#68484A' }}>
+        <Text style={{
+          marginTop: 16, fontWeight: 'bold', color: '#68484A',
+        }}
+        >
           Não possui cadastro?
           {' '}
         </Text>
-        <Text style={{ paddingTop: 16, fontWeight: 'bold', color: '#cf2323' }}>
+        <Text style={{
+          marginTop: 16, fontWeight: 'bold', color: '#cf2323',
+        }}
+        >
           Cadastre-se aqui!
         </Text>
 

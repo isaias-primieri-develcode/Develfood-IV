@@ -1,11 +1,12 @@
+import { RFValue } from 'react-native-responsive-fontsize';
 import styled from 'styled-components/native';
 
 export const Container = styled.View`
     width: 100%;
-    height: 56px;
+    height: ${RFValue(56)}px;
     background-color: '#888';
     position: absolute;
-    top: 0;
+    /* top: 0; */
     align-items:center ;
     flex-direction: row;
 
@@ -13,7 +14,7 @@ export const Container = styled.View`
 
 export const Title = styled.Text`
     font-size: 18px;
-    color: black;
+    color: white;
     text-align: center;
 
 `;

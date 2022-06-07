@@ -7,7 +7,7 @@ export const Container = styled.View`
 
 export const InputRestaurants = styled.View`
   height: ${RFValue(50)}px;
-  width: ${RFValue(339)}px;
+  width: 339px;
   border: ${RFValue(1)}px;
   border-color: #bfbaba;
   border-radius: 10px;
@@ -20,5 +20,6 @@ export const ImageSearch = styled.Image`
 `
 export const ViewSearch = styled.View``
 export const TextInputMod = styled.TextInput`
+
   width: ${RFValue(285)}px;
 `

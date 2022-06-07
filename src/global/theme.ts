@@ -1,3 +1,4 @@
+/* eslint-disable global-require */
 export default {
   colors: {
     background: '#FFFFFF',
@@ -24,5 +25,11 @@ export default {
     icon_dark: '#2B2B2E',
 
     input_focus: '#68484A',
+  },
+  icons: {
+    prato1: require('../assets/images/prato1.png'),
+    prato2: require('../assets/images/prato2.png'),
+    prato3: require('../assets/images/prato3.png'),
+
   },
 }
